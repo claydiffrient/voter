@@ -1,4 +1,6 @@
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
+var cssnext = require('cssnext');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -19,7 +21,11 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ }
+      { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
+      { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'}
     ]
+  },
+  postcss: function () {
+    return [autoprefixer, cssnext];
   }
 };
