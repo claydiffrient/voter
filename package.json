@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --inline --hot",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-core/register --recursive",
+    "test:watch": "npm test -- --watch"
   },
   "author": "Clay Diffrient <clay.diffrient@gmail.com>",
   "license": "MIT",
@@ -15,7 +16,17 @@
     "babel-preset-es2015": "^6.0.15",
     "babel-preset-react": "^6.0.15",
     "babel-preset-stage-0": "^6.0.15",
+    "chai": "^3.4.0",
+    "chai-immutable": "^1.5.1",
+    "mocha": "^2.3.3",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.1"
+  },
+  "dependencies": {
+    "page": "^1.6.4",
+    "react": "^0.14.2",
+    "redux": "^3.0.4",
+    "redux-logger": "^2.0.4",
+    "redux-thunk": "^1.0.0"
   }
 }
