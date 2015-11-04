@@ -1,3 +1,15 @@
-let x = 123;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
 
-console.log(x);
+export default class Index extends React.Component {
+  render () {
+    return (
+      <div>
+        Testing again
+      </div>
+    );
+  }
+};
+
+ReactDOM.render(<Index />, document.getElementById('main'));
