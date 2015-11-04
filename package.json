@@ -4,6 +4,7 @@
   "description": "An app to abitrarily vote on things",
   "main": "index.js",
   "scripts": {
+    "start": "webpack-dev-server --inline --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Clay Diffrient <clay.diffrient@gmail.com>",
