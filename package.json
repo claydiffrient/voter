@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --inline --hot",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive",
+    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "test:watch": "npm test -- --watch"
   },
   "author": "Clay Diffrient <clay.diffrient@gmail.com>",
@@ -21,6 +21,7 @@
     "chai-immutable": "^1.5.1",
     "css-loader": "^0.21.0",
     "cssnext": "^1.8.4",
+    "jsdom": "^7.0.2",
     "mocha": "^2.3.3",
     "postcss-loader": "^0.7.0",
     "style-loader": "^0.13.0",
