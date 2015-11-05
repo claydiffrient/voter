@@ -1,15 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { render } from 'react-dom';
+import Index from './components/Index/Index';
+import { Provider, connect } from 'react-redux';
+import configureStore from './store/configureStore';
+import initialState from './store/initialState';
 
-export default class Index extends React.Component {
-  render () {
-    return (
-      <div>
-        Testing again
-      </div>
-    );
-  }
-};
+function mapStateToProps (state) {
+  return {
+    props: state
+  };
+}
 
-ReactDOM.render(<Index />, document.getElementById('main'));
+const ConnectedIndex = connect(mapStateToProps)(Index);
+const store = configureStore(initialState);
+
+render(
+  (
+    <Provider store={store}>
+      <ConnectedIndex />
+    </Provider>
+  ), document.getElementById('main'));
