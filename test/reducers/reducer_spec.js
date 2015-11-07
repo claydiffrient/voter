@@ -35,7 +35,19 @@ describe('Reducers', () => {
     let action = placeVote({id: 3});
 
     let finalState = reducer(initialState, action);
-    let expected = fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 1}])
+    let expected = fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 1}]);
     expect(finalState.get('items')).to.equal(expected);
+  });
+
+  it('reduces the remainingVotes on PLACE_VOTE', () => {
+    let initialState = Map({
+      items: fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 0}]),
+      remainingVotes: 10
+    });
+
+    let action = placeVote({id: 3});
+    let finalState = reducer(initialState, action);
+    expect(finalState.get('remainingVotes')).to.equal(9);
+
   });
 });
