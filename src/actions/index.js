@@ -5,3 +5,6 @@ export const addItem = createAction(ADD_ITEM);
 
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const removeItem = createAction(REMOVE_ITEM);
+
+export const PLACE_VOTE = 'PLACE_VOTE';
+export const placeVote = createAction(PLACE_VOTE);

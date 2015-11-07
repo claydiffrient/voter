@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { Map, List, fromJS } from 'immutable';
 import reducer from '../../src/reducers';
-import { addItem, removeItem } from '../../src/actions';
+import { addItem, removeItem, placeVote } from '../../src/actions';
 
 describe('Reducers', () => {
   it('adds an item to the list of items on ADD_ITEM', () => {
@@ -25,5 +25,17 @@ describe('Reducers', () => {
 
     let finalState = reducer(initialState, action);
     expect(finalState.get('items')).to.deep.equal(fromJS([{id: 1}, {id: 3}]));
+  });
+
+  it('adds a vote count on PLACE_VOTE', () => {
+    let initialState = Map({
+      items: fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 0}])
+    });
+
+    let action = placeVote({id: 3});
+
+    let finalState = reducer(initialState, action);
+    let expected = fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 1}])
+    expect(finalState.get('items')).to.equal(expected);
   });
 });

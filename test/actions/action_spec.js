@@ -1,6 +1,6 @@
 /*eslint-env mocha */
 import { expect } from 'chai';
-import { addItem, removeItem } from '../../src/actions';
+import { addItem, removeItem, placeVote } from '../../src/actions';
 
 describe('Actions', () => {
   describe('addItem', () => {
@@ -27,6 +27,18 @@ describe('Actions', () => {
       };
 
       expect(actual).to.deep.equal(expected);
+    });
+  });
+
+  describe('placeVote', () => {
+    it('returns a PLACE_VOTE action', () => {
+      const actual = placeVote({id: 1});
+      const expected = {
+        type: 'PLACE_VOTE',
+        payload: {
+          id: 1
+        }
+      };
     });
   });
 });
