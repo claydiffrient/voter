@@ -1,6 +1,6 @@
 import React from 'react';
 import './Index.css';
-import ItemList from '../ItemList/ItemList';
+import ItemList from '../ItemList';
 import AddItem from '../AddItem/AddItem';
 
 export default function (props) {
