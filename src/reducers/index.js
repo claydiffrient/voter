@@ -7,6 +7,12 @@ const ROOT_REDUCER = handleActions({
     let oldItems = state.get('items');
     let newItems = oldItems.push(action.payload);
     return state.set('items', newItems);
+  },
+
+  [ActionTypes.REMOVE_ITEM]: (state, action) => {
+    let oldItems = state.get('items');
+    let newItems = oldItems.filterNot(x => x.get('id') === action.payload.id);
+    return state.set('items', newItems);
   }
 }, initialState);
 
