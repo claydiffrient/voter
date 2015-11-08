@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Index from './components/Index/Index';
+import Index from './components/Index';
 import { Provider, connect } from 'react-redux';
 import configureStore from './store/configureStore';
 import initialState from './store/initialState';
@@ -14,7 +14,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    handleAddItem: (item) => dispatch(Actions.addItem(item))
+    handleAddItem: (item) => dispatch(Actions.addItem(item)),
+    handleVote: (id) => { console.log(id); dispatch(Actions.placeVote({id}))}
   };
 }
 

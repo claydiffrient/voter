@@ -1,4 +1,5 @@
 import React from 'react';
+import Item from './Item';
 
 export default function (props) {
   return (
@@ -6,10 +7,7 @@ export default function (props) {
       {
         props.items.map((item) => {
           return (
-            <li key={item.id}>
-              <span>{item.title}</span>
-              <span>Num Votes: {item.votes}</span>
-            </li>
+            <Item id={item.get('id')} votes={item.get('votes')} title={item.get('title')} handleVoteClick={props.handleVote.bind(null, item.id)} />
           );
         })
       }

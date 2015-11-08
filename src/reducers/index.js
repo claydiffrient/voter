@@ -1,11 +1,12 @@
 import * as ActionTypes from '../actions';
 import { handleActions } from 'redux-actions';
 import initialState from '../store/initialState';
+import { fromJS } from 'immutable';
 
 const ROOT_REDUCER = handleActions({
   [ActionTypes.ADD_ITEM]: (state, action) => {
     let oldItems = state.get('items');
-    let newItems = oldItems.push(action.payload);
+    let newItems = oldItems.push(fromJS(action.payload));
     return state.set('items', newItems);
   },
 

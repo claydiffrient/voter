@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'uuid';
 
 export default class AddItem extends React.Component {
 
@@ -13,7 +14,8 @@ export default class AddItem extends React.Component {
   handleClick () {
     this.props.onAdd({
       title: this.state.input,
-      votes: 0
+      votes: 0,
+      id: uuid.v1()
     });
   }
 
