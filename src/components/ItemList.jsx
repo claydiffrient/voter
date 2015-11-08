@@ -6,10 +6,11 @@ export default function (props) {
     <ul>
       {
         props.items.map((item) => {
+          const id = item.get('id');
           return (
-            <Item id={item.get('id')} votes={item.get('votes')} title={item.get('title')} handleVoteClick={props.handleVote.bind(null, item.id)} />
+            <Item key={id} id={id} votes={item.get('votes')} title={item.get('title')} handleVoteClick={props.handleVote.bind(null, id)} />
           );
-        })
+        }).toArray()
       }
     </ul>
   );

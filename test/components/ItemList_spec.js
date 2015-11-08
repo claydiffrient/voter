@@ -2,12 +2,13 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
 import { expect } from 'chai';
+import { fromJS } from 'immutable';
 import ItemList from '../../src/components/ItemList';
 
 describe('ItemList', () => {
 
   it('renders out the items provided to it', () => {
-    const itemProps = [{
+    const itemProps = fromJS([{
       id: 0,
       title: 'Test 1',
       votes: 0
@@ -15,11 +16,11 @@ describe('ItemList', () => {
       id: 1,
       title: 'Test 2',
       votes: 1
-    }];
+    }]);
 
     const renderer = createRenderer();
     renderer.render(
-      <ItemList items={itemProps} />
+      <ItemList items={itemProps} handleVote={() => {}} />
     );
 
     const result = renderer.getRenderOutput();
