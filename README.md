@@ -1,6 +1,11 @@
 Voter
 ===========
 
+[![Build Status](https://travis-ci.org/claydiffrient/voter.svg?branch=master)](https://travis-ci.org/claydiffrient/voter)
+[![Code Climate](https://codeclimate.com/github/claydiffrient/voter/badges/gpa.svg)](https://codeclimate.com/github/claydiffrient/voter)
+[![Test Coverage](https://codeclimate.com/github/claydiffrient/voter/badges/coverage.svg)](https://codeclimate.com/github/claydiffrient/voter/coverage)
+[![Dependency Status](https://david-dm.org/claydiffrient/voter.svg)](https://david-dm.org/claydiffrient/voter)
+
 This is a WIP, but will be a simple application that allows
 arbitrary information to be entered and voted upon.
 
