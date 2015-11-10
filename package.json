@@ -14,6 +14,7 @@
   "devDependencies": {
     "autoprefixer": "^6.0.3",
     "babel-core": "^6.0.20",
+    "babel-istanbul": "^0.4.1",
     "babel-loader": "^6.0.1",
     "babel-preset-es2015": "^6.0.15",
     "babel-preset-react": "^6.0.15",
@@ -22,6 +23,7 @@
     "chai-immutable": "^1.5.1",
     "css-loader": "^0.21.0",
     "cssnext": "^1.8.4",
+    "istanbul": "^0.4.0",
     "jsdom": "^7.0.2",
     "karma": "^0.13.15",
     "karma-babel-preprocessor": "^6.0.1",

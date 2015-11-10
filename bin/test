@@ -1,7 +1,8 @@
 #!/bin/sh
 
 echo 'Running client tests'
-mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'
+echo node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- -u exports -R spec --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'
+node_modules/.bin/babel-istanbul cover node_modules/.bin/_mocha -- -u exports -R spec --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'
 
 # We will return to using a breakdown like this once there is a "smart component"
 # involved in the testing.
