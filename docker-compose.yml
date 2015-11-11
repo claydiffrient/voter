@@ -1,0 +1,15 @@
+web:
+  build: .
+  links:
+    - db
+  ports:
+    - "8080:8080"
+db:
+  image: rethinkdb
+  volumes_from:
+    - dbData
+dbData:
+  image: busybox
+  volumes:
+    - /data
+  command: echo Data Volume for db
