@@ -27,3 +27,4 @@ app.get('/', (req, res) => {
 });
 
 httpServer.listen(port);
+console.log(`Voter listening on ${port}`);
