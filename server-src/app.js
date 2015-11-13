@@ -9,9 +9,21 @@ import compress from 'compression';
 import serveStatic from 'serve-static';
 import http from 'http';
 
+import r from 'rethinkdb';
+
+const dbConfig = {
+  host: 'db',
+  port: 28015,
+  db: 'test'
+};
+
+// import apiRoutes from './api'
+
 const app = express();
 const httpServer = http.Server(app);
 const port = 3000;
+
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -24,6 +36,32 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.render('index', { html: '<h1>Server Running</h1>'});
+});
+
+// TODO: Extract this out to a seperate module
+app.get('/api/v1/items', (req, res) => {
+  r.connect(dbConfig)
+   .then((conn) => {
+     return r.table('items')
+             .run(conn)
+             .then((cursor) => {
+               return cursor.toArray();
+             })
+             .then((items) => res.json(items));
+   });
+});
+
+app.post('/api/v1/items', (req, res) => {
+  r.connect(dbConfig)
+   .then((conn) => {
+     return r.table('items')
+             .insert(req.body)
+             .run(conn)
+             .then((response) => {
+               return Object.assign({}, req.body, {id: response.generated_keys[0]});
+             })
+             .then((item) => res.json(item));
+   });
 });
 
 httpServer.listen(port);

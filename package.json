@@ -60,6 +60,7 @@
     "redux-actions": "^0.8.0",
     "redux-logger": "^2.0.4",
     "redux-thunk": "^1.0.0",
+    "rethinkdb": "^2.2.0",
     "serve-static": "^1.10.0",
     "uuid": "^2.0.1"
   }
