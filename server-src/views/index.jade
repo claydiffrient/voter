@@ -6,4 +6,7 @@ html
   body
     #app !{html}
 
+    script.
+      window.__INITIAL_STATE__ = !{initialState)
+
     script(src='/client/bundle.js')

@@ -10,6 +10,7 @@ import serveStatic from 'serve-static';
 import http from 'http';
 
 import r from 'rethinkdb';
+import renderApp from './ssrApp';
 
 const dbConfig = {
   host: 'db',
@@ -34,11 +35,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.render('index', { html: '<h1>Server Running</h1>'});
-});
+app.get('/', renderApp);
 
-// TODO: Extract this out to a seperate module
+// TODO: Extract this out to a seperate module for api things
 app.get('/api/v1/items', (req, res) => {
   r.connect(dbConfig)
    .then((conn) => {
