@@ -1,0 +1,7 @@
+.AddItem__Input {
+
+}
+
+.AddItem__Input--error {
+  border-color: red;
+}

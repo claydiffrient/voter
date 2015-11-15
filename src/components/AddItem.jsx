@@ -1,5 +1,7 @@
 import React from 'react';
 import uuid from 'uuid';
+import classnames from 'classnames';
+import './AddItem.css';
 
 export default class AddItem extends React.Component {
 
@@ -13,14 +15,21 @@ export default class AddItem extends React.Component {
   }
 
   handleClick () {
-    this.props.onAdd({
-      title: this.state.input,
-      votes: 0,
-      id: uuid.v1()
-    });
-    this.setState({
-      input: ''
-    });
+    if (this.state.input.length) {
+      this.props.onAdd({
+        title: this.state.input,
+        votes: 0,
+        id: uuid.v1()
+      });
+      this.setState({
+        input: '',
+        error: false
+      });
+    } else {
+      this.setState({
+        error: true
+      });
+    }
   }
 
   handleChange (event) {
@@ -36,13 +45,21 @@ export default class AddItem extends React.Component {
   }
 
   render () {
+    const inputClasses = classnames({
+      'AddItem__Input': true,
+      'AddItem__Input--error': this.state.error
+    });
+
     return (
       <div>
         <input
+          className={inputClasses}
           value={this.state.input}
           onChange={this.handleChange}
           onKeyPress={this.handleKeyPress}
-          type='text' />
+          type='text'
+          aria-invalid={this.state.error}
+        />
         <button type='button' onClick={this.handleClick}>Add Item</button>
       </div>
     );
