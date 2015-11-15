@@ -17,16 +17,20 @@ const ROOT_REDUCER = handleActions({
   },
 
   [ActionTypes.PLACE_VOTE]: (state, action) => {
-    // Add the vote to the appropriate item
-    let oldItems = state.get('items');
-    let index = oldItems.findIndex(x => x.get('id') === action.payload.id);
-    let newItems = oldItems.update(index, x => x.set('votes', x.get('votes') + 1));
-
-    // Reduce the remaining votes for the user
     let userVotes = state.get('remainingVotes');
-    let updatedState = state.set('remainingVotes', userVotes - 1);
+    if (userVotes > 0) {
+      // Add the vote to the appropriate item
+      let oldItems = state.get('items');
+      let index = oldItems.findIndex(x => x.get('id') === action.payload.id);
+      let newItems = oldItems.update(index, x => x.set('votes', x.get('votes') + 1));
 
-    return updatedState.set('items', newItems);
+      // Reduce the remaining votes for the user
+      let updatedState = state.set('remainingVotes', userVotes - 1);
+
+      return updatedState.set('items', newItems);
+    } else {
+      return state;
+    }
   }
 
 }, initialState);
