@@ -9,6 +9,7 @@ export default class AddItem extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   handleClick () {
@@ -16,6 +17,9 @@ export default class AddItem extends React.Component {
       title: this.state.input,
       votes: 0,
       id: uuid.v1()
+    });
+    this.setState({
+      input: ''
     });
   }
 
@@ -25,10 +29,20 @@ export default class AddItem extends React.Component {
     });
   }
 
+  handleKeyPress (event) {
+    if (event.key === 'Enter') {
+      this.handleClick();
+    }
+  }
+
   render () {
     return (
       <div>
-        <input value={this.state.input} onChange={this.handleChange} type='text' />
+        <input
+          value={this.state.input}
+          onChange={this.handleChange}
+          onKeyPress={this.handleKeyPress}
+          type='text' />
         <button type='button' onClick={this.handleClick}>Add Item</button>
       </div>
     );
