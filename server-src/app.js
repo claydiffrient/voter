@@ -24,18 +24,19 @@ const app = express();
 const httpServer = http.Server(app);
 const port = 3000;
 
-
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(serveStatic(path.join(__dirname, '..', 'built', 'client')));
+app.use(serveStatic(path.join(__dirname, '..', 'client')));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
 
-app.get('/', renderApp);
+// app.get('/', renderApp);
+app.get('/', (req, res) => {
+  res.render('index', {html: '<div id="main"></div>'});
+});
 
 // TODO: Extract this out to a seperate module for api things
 app.get('/api/v1/items', (req, res) => {
