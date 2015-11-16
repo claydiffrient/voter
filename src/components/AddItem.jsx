@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'uuid';
 import classnames from 'classnames';
 import './AddItem.css';
 
@@ -18,8 +17,7 @@ export default class AddItem extends React.Component {
     if (this.state.input.length) {
       this.props.onAdd({
         title: this.state.input,
-        votes: 0,
-        id: uuid.v1()
+        votes: 0
       });
       this.setState({
         input: '',
