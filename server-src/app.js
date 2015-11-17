@@ -64,5 +64,22 @@ app.post('/api/v1/items', (req, res) => {
    });
 });
 
+app.post('/api/v1/items/:id/vote', (req, res) => {
+  r.connect(dbConfig)
+   .then((conn) => {
+     return r.table('items')
+             .get(req.params.id)
+             .update({
+               votes: r.row('votes').default(0).add(1)
+             }, {
+               returnChanges: true
+             })
+             .run(conn)
+             .then((response) => {
+               res.json(response.changes[0].new_val);
+             });
+   });
+});
+
 httpServer.listen(port);
 console.log(`Voter listening on ${port}`);
