@@ -7,8 +7,11 @@ export const addItemSuccess = createAction(ADD_ITEM);
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const removeItem = createAction(REMOVE_ITEM);
 
-export const PLACE_VOTE = 'PLACE_VOTE';
-export const placeVote = createAction(PLACE_VOTE);
+export const PLACE_VOTE_SUCCESS = 'PLACE_VOTE_SUCCESS';
+export const placeVoteSuccess = createAction(PLACE_VOTE_SUCCESS);
+
+export const PLACE_VOTE_FAILURE = 'PLACE_VOTE_FAILURE';
+export const placeVoteFailure = createAction(PLACE_VOTE_FAILURE);
 
 export const GOT_ITEMS = 'GOT_ITEMS';
 export const gotItems = createAction(GOT_ITEMS);
@@ -32,5 +35,23 @@ export const addItem = (item, ajaxLib = axios) => {
       .then((response) => {
         dispatch(addItemSuccess(response.data));
       });
+  };
+};
+
+export const placeVote = (item, ajaxLib = axios) => {
+  return (dispatch, getState) => {
+    let userVotes = getState().get('remainingVotes');
+    if (userVotes > 0) {
+      ajaxLib
+        .post(`/api/v1/items/${item.id}/vote`)
+        .then((response) => {
+          dispatch(placeVoteSuccess(response.data));
+        })
+        .catch((response) => {
+          dispatch(placeVoteFailure(response.data));
+        });
+    } else {
+      dispatch(placeVoteFailure());
+    }
   };
 };
