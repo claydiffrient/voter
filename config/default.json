@@ -3,5 +3,8 @@
     "host": "db",
     "port": 28015,
     "db": "test"
+  },
+  "jwt": {
+    "secret": "SECRET"
   }
 }
