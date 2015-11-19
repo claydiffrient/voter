@@ -8,15 +8,10 @@ import methodOverride from 'method-override';
 import compress from 'compression';
 import serveStatic from 'serve-static';
 import http from 'http';
-
+import config from 'config';
 import r from 'rethinkdb';
 import renderApp from './ssrApp';
 
-const dbConfig = {
-  host: 'db',
-  port: 28015,
-  db: 'test'
-};
 
 // import apiRoutes from './api'
 
@@ -40,7 +35,7 @@ app.get('/', (req, res) => {
 
 // TODO: Extract this out to a seperate module for api things
 app.get('/api/v1/items', (req, res) => {
-  r.connect(dbConfig)
+  r.connect(config.get('db'))
    .then((conn) => {
      return r.table('items')
              .run(conn)
@@ -52,7 +47,7 @@ app.get('/api/v1/items', (req, res) => {
 });
 
 app.post('/api/v1/items', (req, res) => {
-  r.connect(dbConfig)
+  r.connect(config.get('db'))
    .then((conn) => {
      return r.table('items')
              .insert(req.body)
@@ -65,7 +60,7 @@ app.post('/api/v1/items', (req, res) => {
 });
 
 app.post('/api/v1/items/:id/vote', (req, res) => {
-  r.connect(dbConfig)
+  r.connect(config.get('db'))
    .then((conn) => {
      return r.table('items')
              .get(req.params.id)
