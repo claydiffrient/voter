@@ -8,4 +8,4 @@ WORKDIR /usr/src/app
 
 RUN npm install
 
-CMD npm run start-prod
+CMD npm run start-server
