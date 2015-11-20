@@ -13,8 +13,23 @@ import r from 'rethinkdb';
 import renderApp from './ssrApp';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import User from './models/User';
 import jwt from 'express-jwt';
+
+// Thinky Models
+import User from './models/User';
+import Item from './models/Item';
+import VoteList from './models/VoteList';
+
+/**
+ * Setup relationships between models
+ */
+
+// User has lots of vote lists, vote lists have one owner
+User.hasMany(VoteList, 'voteLists', 'id', 'ownerId');
+VoteList.belongsTo(User, 'owner', 'ownerId', 'id');
+// Vote list has many items, items have one vote list
+VoteList.hasMany(Item, 'items', 'id', 'listId');
+Item.belongsTo(VoteList, 'voteList', 'listId', 'id');
 
 // import apiRoutes from './api'
 

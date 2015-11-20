@@ -8,6 +8,7 @@ const thinky = thinkyConstructor(config.get('db'));
 const { type } = thinky;
 
 let User = thinky.createModel('users', {
+  id: type.string(),
   email: type.string().required(),
   hash: type.string(),
   salt: type.string()
@@ -30,11 +31,10 @@ User.define('generateJWT', function () {
   exp.setDate(today.getDate() + 60);
 
   return jwt.sign({
-    _id: this._id,
+    id: this.id,
     username: this.username,
     exp: parseInt(exp.getTime() / 1000, 10)
   }, config.get('jwt.secret'));
 });
-
 
 export default User;
