@@ -88,6 +88,46 @@ app.get('/', (req, res) => {
 });
 
 // TODO: Extract this out to a seperate module for api things
+
+/**
+ * @api {get} /users
+ * @apiName GetUsers
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ *
+ * @apiSuccess  {Object[]}  users   List of users
+ * @apiSuccess  {String}    id      Unique user id
+ * @apiSuccess  {String}    email   User's email address
+ * @apiSuccess  {String}    name    The user's name
+ */
+app.get('/api/v1/users', (req, res) => {
+  User.run().then((users) => {
+    const sanitizedUsers = users.map((user) => user.toPublic());
+    res.json(sanitizedUsers);
+  });
+});
+
+/**
+ * @api {get} /users/:userId/lists
+ * @apiName GetUserLists
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ *
+ * @apiParam {Number} userId User's unique ID or 'self'
+ *
+ * @apiSuccess  {Object[]} lists          List of VoteLists the user has created
+ * @apiSuccess  {String}   lists.id       The id of the list
+ * @apiSuccess  {String}   lists.ownerId  The id of the user that owns it
+ * @apiSuccess  {Object[]} lists.items    The items on the list
+ */
+app.get('/api/v1/users/:userId/items', (req, res) => {
+  VoteList.filter({ownerId: req.params.userId})
+          .run()
+          .then((voteLists) => {
+            res.json(voteLists);
+          });
+});
+
 app.get('/api/v1/items', (req, res) => {
   Item.run().then((items) => {
     res.json(items);
