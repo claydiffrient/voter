@@ -1,20 +1,18 @@
-import thinkyConstructor from 'thinky';
-import config from 'config';
+export default function (thinky) {
+  const { type } = thinky;
 
-const thinky = thinkyConstructor(config.get('db'));
+  /**
+   * Model representing a list which contains items that
+   * can be voted on.
+   */
+  let Item = thinky.createModel('items', {
+    id: type.string(),
+    ownerId: type.string(),
+    listId: type.string(),
+    title: type.string().required(),
+    votes: type.number().integer().default(0)
+  });
 
-const { type } = thinky;
+  return Item;
 
-/**
- * Model representing a list which contains items that
- * can be voted on.
- */
-let VoteList = thinky.createModel('votelists', {
-  id: type.string(),
-  ownerId: type.string(),
-  listId: type.string(),
-  title: type.string().required(),
-  votes: type.number().integer().default(0)
-});
-
-export default VoteList;
+};

@@ -15,21 +15,30 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import jwt from 'express-jwt';
 
-// Thinky Models
-import User from './models/User';
-import Item from './models/Item';
-import VoteList from './models/VoteList';
+let User = {};
+let Item = {};
+let VoteList = {};
 
-/**
- * Setup relationships between models
- */
+// Delay to insure startup of DB has completed in docker compose
+setTimeout(() => {
+  // Thinky Models
+  let models = require('./models/').default;
+  User = models.User;
+  Item = models.Item;
+  VoteList = models.VoteList;
+  // const {User, Item, VoteList} = require('./models/');
 
-// User has lots of vote lists, vote lists have one owner
-User.hasMany(VoteList, 'voteLists', 'id', 'ownerId');
-VoteList.belongsTo(User, 'owner', 'ownerId', 'id');
-// Vote list has many items, items have one vote list
-VoteList.hasMany(Item, 'items', 'id', 'listId');
-Item.belongsTo(VoteList, 'voteList', 'listId', 'id');
+  /**
+   * Setup relationships between models
+   */
+  // User has lots of vote lists, vote lists have one owner
+  User.hasMany(VoteList, 'voteLists', 'id', 'ownerId');
+  VoteList.belongsTo(User, 'owner', 'ownerId', 'id');
+  // Vote list has many items, items have one vote list
+  VoteList.hasMany(Item, 'items', 'id', 'listId');
+  Item.belongsTo(VoteList, 'voteList', 'listId', 'id');
+}, 5000);
+
 
 // import apiRoutes from './api'
 
@@ -80,46 +89,40 @@ app.get('/', (req, res) => {
 
 // TODO: Extract this out to a seperate module for api things
 app.get('/api/v1/items', (req, res) => {
-  r.connect(config.get('db'))
-   .then((conn) => {
-     return r.table('items')
-             .run(conn)
-             .then((cursor) => {
-               return cursor.toArray();
-             })
-             .then((items) => res.json(items));
-   });
+  Item.run().then((items) => {
+    res.json(items);
+  });
 });
 
-app.post('/api/v1/items', auth, (req, res) => {
-  r.connect(config.get('db'))
-   .then((conn) => {
-     return r.table('items')
-             .insert(req.body)
-             .run(conn)
-             .then((response) => {
-               return Object.assign({}, req.body, {id: response.generated_keys[0]});
-             })
-             .then((item) => res.json(item));
-   });
-});
+// app.post('/api/v1/items', auth, (req, res) => {
+//   r.connect(config.get('db'))
+//    .then((conn) => {
+//      return r.table('items')
+//              .insert(req.body)
+//              .run(conn)
+//              .then((response) => {
+//                return Object.assign({}, req.body, {id: response.generated_keys[0]});
+//              })
+//              .then((item) => res.json(item));
+//    });
+// });
 
-app.post('/api/v1/items/:id/vote', (req, res) => {
-  r.connect(config.get('db'))
-   .then((conn) => {
-     return r.table('items')
-             .get(req.params.id)
-             .update({
-               votes: r.row('votes').default(0).add(1)
-             }, {
-               returnChanges: true
-             })
-             .run(conn)
-             .then((response) => {
-               res.json(response.changes[0].new_val);
-             });
-   });
-});
+// app.post('/api/v1/items/:id/vote', (req, res) => {
+//   r.connect(config.get('db'))
+//    .then((conn) => {
+//      return r.table('items')
+//              .get(req.params.id)
+//              .update({
+//                votes: r.row('votes').default(0).add(1)
+//              }, {
+//                returnChanges: true
+//              })
+//              .run(conn)
+//              .then((response) => {
+//                res.json(response.changes[0].new_val);
+//              });
+//    });
+// });
 
 app.post('/register', (req, res, next) => {
   if (!req.body.email || !req.body.password) {
