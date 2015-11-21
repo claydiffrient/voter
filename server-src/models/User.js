@@ -9,6 +9,7 @@ export default function (thinky) {
   let User = thinky.createModel('users', {
     id: type.string(),
     email: type.string().required(),
+    name: type.string(),
     hash: type.string(),
     salt: type.string()
   });
@@ -34,6 +35,12 @@ export default function (thinky) {
       username: this.username,
       exp: parseInt(exp.getTime() / 1000, 10)
     }, config.get('jwt.secret'));
+  });
+
+  User.define('toPublic', function () {
+    delete this.hash;
+    delete this.salt;
+    return this;
   });
 
   return User;
