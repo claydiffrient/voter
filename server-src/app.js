@@ -95,10 +95,10 @@ app.get('/', (req, res) => {
  * @apiGroup User
  * @apiVersion 1.0.0
  *
- * @apiSuccess  {Object[]}  users   List of users
- * @apiSuccess  {String}    id      Unique user id
- * @apiSuccess  {String}    email   User's email address
- * @apiSuccess  {String}    name    The user's name
+ * @apiSuccess  {Object[]}  users         List of users
+ * @apiSuccess  {String}    users.id      Unique user id
+ * @apiSuccess  {String}    users.email   User's email address
+ * @apiSuccess  {String}    users.name    The user's name
  */
 app.get('/api/v1/users', (req, res) => {
   User.run().then((users) => {
@@ -108,24 +108,69 @@ app.get('/api/v1/users', (req, res) => {
 });
 
 /**
+ * @api {get} /users/:id
+ * @apiName GetUser
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ *
+ * @apiSuccess  {Object}    user          The user object
+ * @apiSuccess  {String}    user.id       Unique user id
+ * @apiSuccess  {String}    user.email    User's email address
+ * @apiSuccess  {String}    user.name     The user's name
+ * @apiSuccess  {Object[]}  voteLists     The lists the user owns
+ */
+app.get('/api/v1/users/:id', (req, res) => {
+  User
+    .get(req.params.id)
+    .getJoin()
+    .run()
+    .then((user) => {
+      res.json(user.toPublic());
+    });
+});
+
+/**
  * @api {get} /users/:userId/lists
  * @apiName GetUserLists
  * @apiGroup User
  * @apiVersion 1.0.0
  *
- * @apiParam {Number} userId User's unique ID or 'self'
+ * @apiParam {String} userId User's unique ID or 'self'
  *
  * @apiSuccess  {Object[]} lists          List of VoteLists the user has created
  * @apiSuccess  {String}   lists.id       The id of the list
  * @apiSuccess  {String}   lists.ownerId  The id of the user that owns it
  * @apiSuccess  {Object[]} lists.items    The items on the list
  */
-app.get('/api/v1/users/:userId/items', (req, res) => {
+app.get('/api/v1/users/:userId/lists', (req, res) => {
   VoteList.filter({ownerId: req.params.userId})
           .run()
           .then((voteLists) => {
             res.json(voteLists);
           });
+});
+
+/**
+ * @api {post} /users/:userId/lists
+ * @apiName CreateUserList
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ *
+ * @apiParam {String} userId User's unique ID or 'self'
+ *
+ * @apiSuccess  {Object}    list            List of VoteLists the user has created
+ * @apiSuccess  {String}    list.id        The id of the list
+ * @apiSuccess  {String}    list.ownerId   The id of the user that owns it
+ * @apiSuccess  {Object[]}  list.items     The items on the list
+ */
+app.post('/api/v1/users/:userId/lists', (req, res, next) => {
+  const newList = new VoteList({
+    ownerId: req.params.userId
+  });
+  newList.save((err) => {
+    if (err) { return next(err); }
+    return res.json(newList);
+  });
 });
 
 app.get('/api/v1/items', (req, res) => {
