@@ -1,8 +1,8 @@
 import { createAction } from 'redux-actions';
 import axios from 'axios';
 
-export const ADD_ITEM = 'ADD_ITEM';
-export const addItemSuccess = createAction(ADD_ITEM);
+export const ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS';
+export const addItemSuccess = createAction(ADD_ITEM_SUCCESS);
 
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const removeItem = createAction(REMOVE_ITEM);

@@ -1,17 +1,28 @@
 /*eslint-env mocha */
 import { expect } from 'chai';
+import when from 'when';
 import { addItem, removeItem, placeVote } from '../../src/actions';
 
 describe('Actions', () => {
   describe('addItem', () => {
-    it('returns a ADD_ITEM action', () => {
+    it('returns a function', () => {
       const actual = addItem(3);
+      expect(actual).to.be.a('function');
+    });
+
+    it('calls addItemSuccess on success', () => {
+      const lib = {
+        post () {
+          return when({data:3});
+        }
+      };
       const expected = {
-        type: 'ADD_ITEM',
+        type: 'ADD_ITEM_SUCCESS',
         payload: 3
       };
-
-      expect(actual).to.deep.equal(expected);
+      addItem(3, lib)((action) => {
+        expect(action).to.deep.equal(expected);
+      });
 
     });
   });

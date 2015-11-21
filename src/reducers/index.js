@@ -4,7 +4,7 @@ import initialState from '../store/initialState';
 import { fromJS } from 'immutable';
 
 const ROOT_REDUCER = handleActions({
-  [ActionTypes.ADD_ITEM]: (state, action) => {
+  [ActionTypes.ADD_ITEM_SUCCESS]: (state, action) => {
     let oldItems = state.get('items');
     let newItems = oldItems.push(fromJS(action.payload));
     return state.set('items', newItems);
