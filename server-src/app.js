@@ -82,10 +82,7 @@ passport.use(new LocalStrategy({
 
 app.use(passport.initialize());
 
-// app.get('/', renderApp);
-app.get('/', (req, res) => {
-  res.render('index', {html: '<div id="main"></div>'});
-});
+
 
 // TODO: Extract this out to a seperate module for api things
 
@@ -239,6 +236,11 @@ app.post('/login', (req, res, next) => {
       return res.status(401).json(info);
     }
   })(req, res, next);
+});
+
+// Let the client handle routing at this point
+app.get('*', (req, res) => {
+  res.render('index', {html: '<div id="main"></div>'});
 });
 
 httpServer.listen(port);

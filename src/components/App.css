@@ -1,0 +1,35 @@
+/*@import './shared/variables.css';*/
+:root {
+  --backgroundColor: #4d685a;
+  --containerColor: #00e28c;
+  --widgetColor: #3c896d;
+  --fontColor: #394a45;
+  --linkColor: #4fb286;
+}
+
+
+body {
+  background: var(--backgroundColor);
+  color: var(--fontColor);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.Container {
+  background: var(--containerColor);
+  padding: 20px;
+}
+
+.Button {
+  padding: 20px;
+  background: var(--widgetColor);
+  color: #fff;
+  border: 2px;
+}
+
+.ButtonLink {
+  text-decoration: none;
+}
+
+.Button:hover {
+  background: color( var(--widgetColor) lightness(25%) );
+}
