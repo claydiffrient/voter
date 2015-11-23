@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import ConnectedIndex from './components/ConnectedIndex';
+import Signup from './components/Signup';
 import { Provider } from 'react-redux';
 import page from 'page';
 import configureStore from './store/configureStore';
@@ -20,8 +21,20 @@ function renderIndex () {
     ), document.getElementById('main'));
 }
 
+function renderSignup () {
+  render(
+    (
+      <Provider store={store}>
+        <App>
+          <Signup />
+        </App>
+      </Provider>
+    ), document.getElementById('main'));
+}
+
+
 page('/', renderIndex);
-page('/signup', () => console.log('TODO: Render signup'));
+page('/signup', renderSignup);
 page('/signin', () => console.log('TODO: Render signin'));
 
 page();
