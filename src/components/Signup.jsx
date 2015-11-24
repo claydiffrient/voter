@@ -1,7 +1,35 @@
 import React from 'react';
+import axios from 'axios';
 import './Index.css';
 
 class Signup extends React.Component {
+
+  constructor () {
+    super();
+
+    this.handleSignupClick = this.handleSignupClick.bind(this);
+  }
+
+  // TODO: Move all this into the Redux flow of things
+  handleSignupClick () {
+    const request = {
+      name: this.refs.name.value,
+      email: this.refs.email.value,
+      password: this.refs.password.value
+    };
+
+    axios.post('/auth/register', request)
+         .then((response) => {
+           window.sessionStorage.setItem('voter', JSON.stringify({
+            token: response.data.token
+           }));
+           window.location = '/';
+         });
+  }
+
+  handleResetClick () {
+
+  }
 
   render () {
     return (
@@ -19,6 +47,18 @@ class Signup extends React.Component {
                   className='col-xs-6 col-sm-2'
                 >
                   <input
+                    ref='name'
+                    type='text'
+                    placeholder='Name'
+                  />
+                </div>
+              </div>
+              <div className='row center-xs'>
+                <div
+                  className='col-xs-6 col-sm-2'
+                >
+                  <input
+                    ref='email'
                     type='text'
                     placeholder='Email'
                   />
@@ -29,6 +69,7 @@ class Signup extends React.Component {
                   className='col-xs-6 col-sm-2'
                 >
                   <input
+                    ref='password'
                     type='password'
                     placeholder='Password'
                   />
@@ -39,8 +80,8 @@ class Signup extends React.Component {
                   className='col-xs-8 col-sm-4'
                 >
                   <div className='Buttons'>
-                    <button className='Button' type='button'>Submit</button>
-                    <button className='Button' type='button'>Reset</button>
+                    <button className='Button' type='button' onClick={this.handleSignupClick}>Submit</button>
+                    <button className='Button' type='button' onClick={this.handleResetClick}>Reset</button>
                   </div>
                 </div>
               </div>
@@ -51,12 +92,5 @@ class Signup extends React.Component {
     );
   }
 }
-
-// Index.propTypes = {
-//   items: React.PropTypes.instanceOf(Immutable.List),
-//   handleVote: React.PropTypes.func,
-//   handleAddItem: React.PropTypes.func,
-//   handleWillMount: React.PropTypes.func
-// };
 
 export default Signup;

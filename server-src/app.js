@@ -206,13 +206,14 @@ app.get('/api/v1/items', (req, res) => {
 //    });
 // });
 
-app.post('/register', (req, res, next) => {
+app.post('/auth/register', (req, res, next) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({message: 'You must provide an email and a password.'});
   }
 
   var user = new User({
-    email: req.body.email
+    email: req.body.email,
+    name: req.body.name
   });
   user.setPassword(req.body.password);
 
@@ -222,7 +223,7 @@ app.post('/register', (req, res, next) => {
   });
 });
 
-app.post('/login', (req, res, next) => {
+app.post('/auth/login', (req, res, next) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({message: 'You must provide an email and a password.'});
   }
