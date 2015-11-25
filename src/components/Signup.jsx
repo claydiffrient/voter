@@ -19,16 +19,14 @@ class Signup extends React.Component {
     };
 
     axios.post('/auth/register', request)
-         .then((response) => {
-           window.sessionStorage.setItem('voter', JSON.stringify({
-            token: response.data.token
-           }));
+         .then(() => {
            window.location = '/';
          });
+         // TODO: Add fail case here
   }
 
   handleResetClick () {
-
+    // TODO: Make this actually reset the form
   }
 
   render () {

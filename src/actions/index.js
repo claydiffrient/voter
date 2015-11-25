@@ -1,5 +1,8 @@
 import { createAction } from 'redux-actions';
-import axios from 'axios';
+import { configureAxios } from '../utils';
+import axiosLib from 'axios';
+
+const axios = configureAxios(axiosLib);
 
 export const ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS';
 export const addItemSuccess = createAction(ADD_ITEM_SUCCESS);
