@@ -5,11 +5,10 @@ module.exports = function (config) {
     frameworks: [ 'mocha' ],
     browserNoActivityTimeout: 60000,// default 10000
     files: [
-      'test/components/*_spec.js',
-      'test/components/**/*_spec.js'
+      'test/**/*_spec.js'
     ],
     preprocessors: {
-      'test/components/**/*_spec.js': ['webpack']
+      'test/**/*_spec.js': ['webpack']
     },
     webpack: require('./webpack.config'),
     webpackMiddleware: {
