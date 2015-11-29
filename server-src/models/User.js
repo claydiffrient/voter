@@ -12,6 +12,8 @@ export default function (thinky) {
     name: type.string(),
     hash: type.string(),
     salt: type.string()
+  }, {
+    pk: 'email'
   });
 
   User.define('setPassword', function (password) {
