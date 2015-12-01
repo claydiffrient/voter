@@ -1,5 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
+import FlashMessageHolder from './FlashMessageHolder';
 import './Index.css';
 
 class Signup extends React.Component {
@@ -21,8 +23,17 @@ class Signup extends React.Component {
     axios.post('/auth/register', request)
          .then(() => {
            window.location = '/';
+         })
+         .catch(() => {
+           ReactDOM.render(
+              <FlashMessageHolder
+                isDisplayed={true}
+                isError={true}
+                message='There was an error siging up.'
+              />
+            , document.getElementById('flash_message')
+           );
          });
-         // TODO: Add fail case here
   }
 
   handleResetClick () {
