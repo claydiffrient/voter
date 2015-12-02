@@ -4,10 +4,14 @@ os:
 node_js:
   - "node"
   - "4.2"
+sudo: required
 script:
-  - "npm test"
+  - "docker-compose up"
+  - "docker-compose run web npm test"
 env:
   - CXX=g++-4.8
+services:
+  - docker
 addons:
   apt:
     sources:
