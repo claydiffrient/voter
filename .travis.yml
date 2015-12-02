@@ -6,7 +6,6 @@ node_js:
   - "4.2"
 sudo: required
 script:
-  - "docker-compose up"
   - "docker-compose run web npm test"
 env:
   - CXX=g++-4.8
