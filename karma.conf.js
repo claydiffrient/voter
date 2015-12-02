@@ -10,10 +10,19 @@ module.exports = function (config) {
     preprocessors: {
       'test/**/*_spec.js': ['webpack']
     },
-    webpack: require('./webpack.config'),
+    webpack: require('./webpack.test.config'),
     webpackMiddleware: {
       noInfo: process.env.CONTINUOUS_INTEGRATION
     },
-    reporters: ['spec']
+    reporters: ['spec', 'coverage'],
+
+    coverageReporter: {
+      dir: 'coverage/client',
+      reporters: [
+        { type: 'lcov', subdir: 'lcov-report' },
+        { type: 'lcovonly', subdir: '..', file: 'client-lcov.info'}
+      ]
+    }
+
   });
 };

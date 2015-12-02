@@ -15,6 +15,10 @@ addons:
     packages:
       - gcc-4.8
       - g++-4.8
+  code_climate:
+    repo_token: 3c49134b164e7675bafe629c8b9b6791ef5df85a3af952ec0278bd522655c85a
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+after_script:
+  - cat './coverage/client-lcov.info' | codeclimate-test-reporter
