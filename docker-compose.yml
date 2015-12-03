@@ -7,6 +7,17 @@ web:
     - db
   ports:
     - "3000:3000"
+webpack:
+  build: .
+  command: node_modules/.bin/webpack -w
+  dockerfile: Dockerfile-dev
+  volumes:
+    - ".:/usr/src/app"
+  ports:
+    - "4000:4000"
+  environment:
+    NODE_ENV: development
+
 db:
   image: rethinkdb
   ports:
