@@ -10,9 +10,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    // handleWillMount: () => dispatch(Actions.getItems()),
-    // handleAddItem: (item) => dispatch(Actions.addItem(item)),
-    // handleVote: (id) => dispatch(Actions.placeVote({id}))
+    handleSignup: (signupDetails) => { dispatch(Actions.processSignup(signupDetails));}
   };
 }
 

@@ -8,7 +8,6 @@ class Signup extends React.Component {
 
   constructor () {
     super();
-
     this.handleSignupClick = this.handleSignupClick.bind(this);
   }
 
@@ -20,20 +19,7 @@ class Signup extends React.Component {
       password: this.refs.password.value
     };
 
-    axios.post('/auth/register', request)
-         .then(() => {
-           window.location = '/';
-         })
-         .catch(() => {
-           ReactDOM.render(
-              <FlashMessageHolder
-                isDisplayed={true}
-                isError={true}
-                message='There was an error siging up.'
-              />
-            , document.getElementById('flash_message')
-           );
-         });
+    this.props.handleSignup(request);
   }
 
   handleResetClick () {

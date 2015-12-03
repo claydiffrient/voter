@@ -19,6 +19,12 @@ export const placeVoteFailure = createAction(PLACE_VOTE_FAILURE);
 export const GOT_ITEMS = 'GOT_ITEMS';
 export const gotItems = createAction(GOT_ITEMS);
 
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const registerSuccess = createAction(REGISTER_SUCCESS);
+
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
+export const registerFailure = createAction(REGISTER_FAILURE);
+
 export const getItems = (ajaxLib = axios) => {
   return (dispatch, getState) => {
     ajaxLib.get('/api/v1/items')
@@ -56,5 +62,17 @@ export const placeVote = (item, ajaxLib = axios) => {
     } else {
       dispatch(placeVoteFailure());
     }
+  };
+};
+
+export const processSignup = (request, ajaxLib = axios) => {
+  return (dispatch, getState) => {
+    ajaxLib.post('/auth/register', request)
+         .then((response) => {
+           dispatch(registerSuccess(response.data));
+         })
+         .catch((response) => {
+           dispatch(registerFailure(response.data));
+         });
   };
 };
