@@ -1,21 +1,20 @@
 import React from 'react';
 import './Index.css';
 
-class Signup extends React.Component {
+class Signin extends React.Component {
 
   constructor () {
     super();
-    this.handleSignupClick = this.handleSignupClick.bind(this);
+    this.handleSigninClick = this.handleSigninClick.bind(this);
   }
 
-  handleSignupClick () {
+  handleSigninClick () {
     const request = {
-      name: this.refs.name.value,
       email: this.refs.email.value,
       password: this.refs.password.value
     };
 
-    this.props.handleSignup(request);
+    this.props.handleSignin(request);
   }
 
   handleResetClick () {
@@ -31,17 +30,6 @@ class Signup extends React.Component {
               <div className='row center-xs'>
                 <div className='col-xs-10 center-xs middle-xs'>
                   <h1>Voter</h1>
-                </div>
-              </div>
-              <div className='row center-xs'>
-                <div
-                  className='col-xs-6 col-sm-2'
-                >
-                  <input
-                    ref='name'
-                    type='text'
-                    placeholder='Name'
-                  />
                 </div>
               </div>
               <div className='row center-xs'>
@@ -71,7 +59,7 @@ class Signup extends React.Component {
                   className='col-xs-8 col-sm-4'
                 >
                   <div className='Buttons'>
-                    <button className='Button' type='button' onClick={this.handleSignupClick}>Submit</button>
+                    <button className='Button' type='button' onClick={this.handleSigninClick}>Login</button>
                     <button className='Button' type='button' onClick={this.handleResetClick}>Reset</button>
                   </div>
                 </div>
@@ -84,4 +72,4 @@ class Signup extends React.Component {
   }
 }
 
-export default Signup;
+export default Signin;

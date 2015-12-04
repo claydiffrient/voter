@@ -1,6 +1,7 @@
 import { createAction } from 'redux-actions';
 import { configureAxios } from '../utils';
 import axiosLib from 'axios';
+import page from 'page';
 
 const axios = configureAxios(axiosLib);
 
@@ -24,6 +25,12 @@ export const registerSuccess = createAction(REGISTER_SUCCESS);
 
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 export const registerFailure = createAction(REGISTER_FAILURE);
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const loginSuccess = createAction(LOGIN_SUCCESS);
+
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const loginFailure = createAction(LOGIN_FAILURE);
 
 export const getItems = (ajaxLib = axios) => {
   return (dispatch, getState) => {
@@ -74,5 +81,17 @@ export const processSignup = (request, ajaxLib = axios) => {
          .catch((response) => {
            dispatch(registerFailure(response.data));
          });
+  };
+};
+
+export const processSignin = (request, ajaxLib = axios) => {
+  return (dispatch, getState) => {
+    ajaxLib.post('/auth/login', request)
+           .then((response) => {
+             dispatch(loginSuccess(response.data));
+           })
+           .catch((response) => {
+             dispatch(loginFailure(response.data));
+           });
   };
 };
