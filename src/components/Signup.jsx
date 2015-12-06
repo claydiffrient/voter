@@ -5,10 +5,11 @@ class Signup extends React.Component {
 
   constructor () {
     super();
-    this.handleSignupClick = this.handleSignupClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSignupClick () {
+  handleSubmit (event) {
+    event.preventDefault();
     const request = {
       name: this.refs.name.value,
       email: this.refs.email.value,
@@ -16,10 +17,6 @@ class Signup extends React.Component {
     };
 
     this.props.handleSignup(request);
-  }
-
-  handleResetClick () {
-    // TODO: Make this actually reset the form
   }
 
   render () {
@@ -33,49 +30,51 @@ class Signup extends React.Component {
                   <h1>Voter</h1>
                 </div>
               </div>
-              <div className='row center-xs'>
-                <div
-                  className='col-xs-6 col-sm-2'
-                >
-                  <input
-                    ref='name'
-                    type='text'
-                    placeholder='Name'
-                  />
-                </div>
-              </div>
-              <div className='row center-xs'>
-                <div
-                  className='col-xs-6 col-sm-2'
-                >
-                  <input
-                    ref='email'
-                    type='text'
-                    placeholder='Email'
-                  />
-                </div>
-              </div>
-              <div className='row center-xs'>
-                <div
-                  className='col-xs-6 col-sm-2'
-                >
-                  <input
-                    ref='password'
-                    type='password'
-                    placeholder='Password'
-                  />
-                </div>
-              </div>
-              <div className='row center-xs'>
-                <div
-                  className='col-xs-8 col-sm-4'
-                >
-                  <div className='Buttons'>
-                    <button className='Button' type='button' onClick={this.handleSignupClick}>Submit</button>
-                    <button className='Button' type='button' onClick={this.handleResetClick}>Reset</button>
+              <form onSubmit={this.handleSubmit}>
+                <div className='row center-xs'>
+                  <div
+                    className='col-xs-6 col-sm-2'
+                  >
+                    <input
+                      ref='name'
+                      type='text'
+                      placeholder='Name'
+                    />
                   </div>
                 </div>
-              </div>
+                <div className='row center-xs'>
+                  <div
+                    className='col-xs-6 col-sm-2'
+                  >
+                    <input
+                      ref='email'
+                      type='text'
+                      placeholder='Email'
+                    />
+                  </div>
+                </div>
+                <div className='row center-xs'>
+                  <div
+                    className='col-xs-6 col-sm-2'
+                  >
+                    <input
+                      ref='password'
+                      type='password'
+                      placeholder='Password'
+                    />
+                  </div>
+                </div>
+                <div className='row center-xs'>
+                  <div
+                    className='col-xs-8 col-sm-4'
+                  >
+                    <div className='Buttons'>
+                      <button className='Button' type='submit'>Submit</button>
+                      <button className='Button' type='reset'>Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>

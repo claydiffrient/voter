@@ -8,7 +8,8 @@ class Signin extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit () {
+  handleSubmit (event) {
+    event.preventDefault();
     const request = {
       email: this.refs.email.value,
       password: this.refs.password.value
