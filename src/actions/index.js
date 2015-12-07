@@ -32,6 +32,18 @@ export const loginSuccess = createAction(LOGIN_SUCCESS);
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const loginFailure = createAction(LOGIN_FAILURE);
 
+export const GOT_LISTS = 'GOT_LISTS';
+export const gotLists = createAction(GOT_LISTS);
+
+export const getLists = (ajaxLib = axios) => {
+  return (dispatch, getState) => {
+    ajaxLib.get('/api/v1/lists')
+           .then((response) => {
+             dispatch(gotLists(response.data));
+           });
+  };
+};
+
 export const getItems = (ajaxLib = axios) => {
   return (dispatch, getState) => {
     ajaxLib.get('/api/v1/items')
@@ -77,6 +89,7 @@ export const processSignup = (request, ajaxLib = axios) => {
     ajaxLib.post('/auth/register', request)
          .then((response) => {
            dispatch(registerSuccess(response.data));
+           page('/home');
          })
          .catch((response) => {
            dispatch(registerFailure(response.data));
@@ -89,6 +102,7 @@ export const processSignin = (request, ajaxLib = axios) => {
     ajaxLib.post('/auth/login', request)
            .then((response) => {
              dispatch(loginSuccess(response.data));
+             page('/home');
            })
            .catch((response) => {
              dispatch(loginFailure(response.data));

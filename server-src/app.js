@@ -170,6 +170,25 @@ app.post('/api/v1/users/:userId/lists', (req, res, next) => {
   });
 });
 
+/**
+ * @api {get} /lists
+ * @apiName GetLists
+ * @apiGroup Lists
+ * @apiVersion 1.0.0
+ *
+ *
+ * @apiSuccess  {Object[]} lists          List of VoteLists the user has created
+ * @apiSuccess  {String}   lists.id       The id of the list
+ * @apiSuccess  {String}   lists.ownerId  The id of the user that owns it
+ * @apiSuccess  {Object[]} lists.items    The items on the list
+ */
+app.get('/api/v1/lists', (req, res) => {
+  VoteList.run()
+          .then((voteLists) => {
+            res.json(voteLists);
+          });
+});
+
 app.get('/api/v1/items', (req, res) => {
   Item.run().then((items) => {
     res.json(items);

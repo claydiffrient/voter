@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
-import Index from './Index';
+import Home from './Home';
 import page from 'page';
 import { isAuthed } from '../utils';
 
@@ -13,8 +13,10 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     handleWillMount: () => {
-      if (isAuthed()) {
-        page('/home');
+      if (!isAuthed()) {
+        page('/');
+      } else {
+        dispatch(Actions.getLists())
       }
     },
     handleAddItem: (item) => dispatch(Actions.addItem(item)),
@@ -22,4 +24,4 @@ function mapDispatchToProps (dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Index);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

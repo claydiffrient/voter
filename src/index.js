@@ -11,6 +11,7 @@ import ConnectedApp from './components/ConnectedApp';
 import ConnectedIndex from './components/ConnectedIndex';
 import ConnectedSignup from './components/ConnectedSignup';
 import ConnectedSignin from './components/ConnectedSignin';
+import ConnectedHome from './components/ConnectedHome';
 
 const store = configureStore(initialState);
 
@@ -61,5 +62,6 @@ function renderHome () {
 page('/', renderIndex);
 page('/signup', renderSignup);
 page('/signin', renderSignin);
+page('/home', renderHome);
 
 page();
