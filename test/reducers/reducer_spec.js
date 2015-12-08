@@ -4,7 +4,7 @@ import chai from 'chai';
 import chaiImmutable from 'chai-immutable';
 import { Map, List, fromJS } from 'immutable';
 import reducer from '../../src/reducers';
-import { addItemSuccess, removeItem, placeVoteSuccess } from '../../src/actions';
+import { addItemSuccess, removeItem, placeVoteSuccess, gotItems } from '../../src/actions';
 
 chai.use(chaiImmutable);
 
@@ -52,6 +52,16 @@ describe('Reducers', () => {
     let action = placeVoteSuccess({id: 3});
     let finalState = reducer(initialState, action);
     expect(finalState.get('remainingVotes')).to.equal(9);
+  });
 
+  it('adds items to the store on GOT_ITEMS', () => {
+    let initialState = Map({
+      items: fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 0}])
+    });
+
+    let action = gotItems([{id: 10, votes: 10}]);
+    let finalState = reducer(initialState, action);
+    let expected = fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 0}, {id: 10, votes: 10}]);
+    expect(finalState.get('items')).to.equal(expected);
   });
 });
