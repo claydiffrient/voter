@@ -7,13 +7,13 @@ export default function (thinky) {
   const { type } = thinky;
 
   let User = thinky.createModel('users', {
-    id: type.string(),
+    username: type.string().required(),
     email: type.string().required(),
     name: type.string(),
     hash: type.string(),
     salt: type.string()
   }, {
-    pk: 'email'
+    pk: 'username'
   });
 
   User.define('setPassword', function (password) {
@@ -33,7 +33,6 @@ export default function (thinky) {
     exp.setDate(today.getDate() + 60);
 
     return jwt.sign({
-      id: this.id,
       username: this.username,
       exp: parseInt(exp.getTime() / 1000, 10)
     }, config.get('jwt.secret'));

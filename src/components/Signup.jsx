@@ -13,7 +13,8 @@ class Signup extends React.Component {
     const request = {
       name: this.refs.name.value,
       email: this.refs.email.value,
-      password: this.refs.password.value
+      password: this.refs.password.value,
+      username: this.refs.username.value
     };
 
     this.props.handleSignup(request);
@@ -39,6 +40,17 @@ class Signup extends React.Component {
                       ref='name'
                       type='text'
                       placeholder='Name'
+                    />
+                  </div>
+                </div>
+                <div className='row center-xs'>
+                  <div
+                    className='col-xs-6 col-sm-2'
+                  >
+                    <input
+                      ref='username'
+                      type='text'
+                      placeholder='Username'
                     />
                   </div>
                 </div>

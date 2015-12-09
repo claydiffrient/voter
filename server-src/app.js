@@ -61,16 +61,14 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 const LocalStrategy = Strategy;
 
-passport.use(new LocalStrategy({
-    usernameField: 'email'
-  },
-  (email, password, done) => {
+passport.use(new LocalStrategy({},
+  (username, password, done) => {
     User
-      .filter({ email })
+      .filter({ username })
       .run()
       .then((result) => {
         if (!result.length) {
-          return done(null, false, { message: 'Incorrect email'});
+          return done(null, false, { message: 'Incorrect username'});
         }
         if (!result[0].validPassword(password)) {
           return done(null, false, { message: 'Incorrect password'});
@@ -226,13 +224,14 @@ app.get('/api/v1/items', (req, res) => {
 // });
 
 app.post('/auth/register', (req, res, next) => {
-  if (!req.body.email || !req.body.password) {
-    return res.status(400).json({message: 'You must provide an email and a password.'});
+  if (!req.body.username || !req.body.password) {
+    return res.status(400).json({message: 'You must provide a username and a password.'});
   }
 
   var user = new User({
     email: req.body.email,
-    name: req.body.name
+    name: req.body.name,
+    username: req.body.username
   });
   user.setPassword(req.body.password);
 
@@ -243,8 +242,8 @@ app.post('/auth/register', (req, res, next) => {
 });
 
 app.post('/auth/login', (req, res, next) => {
-  if (!req.body.email || !req.body.password) {
-    return res.status(400).json({message: 'You must provide an email and a password.'});
+  if (!req.body.username || !req.body.password) {
+    return res.status(400).json({message: 'You must provide a username and a password.'});
   }
 
   passport.authenticate('local', (err, user, info) => {

@@ -11,7 +11,7 @@ class Signin extends React.Component {
   handleSubmit (event) {
     event.preventDefault();
     const request = {
-      email: this.refs.email.value,
+      username: this.refs.username.value,
       password: this.refs.password.value
     };
 
@@ -38,9 +38,9 @@ class Signin extends React.Component {
                     className='col-xs-6 col-sm-2'
                   >
                     <input
-                      ref='email'
+                      ref='username'
                       type='text'
-                      placeholder='Email'
+                      placeholder='Username'
                     />
                   </div>
                 </div>
