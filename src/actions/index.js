@@ -97,12 +97,12 @@ export const processSignup = (request, ajaxLib = axios) => {
   };
 };
 
-export const processSignin = (request, ajaxLib = axios) => {
+export const processSignin = (request, ajaxLib = axios, redirect = page) => {
   return (dispatch, getState) => {
     ajaxLib.post('/auth/login', request)
            .then((response) => {
              dispatch(loginSuccess(response.data));
-             page('/home');
+             redirect('/home');
            })
            .catch((response) => {
              dispatch(loginFailure(response.data));

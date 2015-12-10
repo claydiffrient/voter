@@ -1,7 +1,7 @@
 /*eslint-env mocha */
 import { expect } from 'chai';
 import when from 'when';
-import { addItem, removeItem, placeVote } from '../../src/actions';
+import { addItem, removeItem, placeVote, processSignin } from '../../src/actions';
 
 describe('Actions', () => {
   describe('addItem', () => {
@@ -50,6 +50,61 @@ describe('Actions', () => {
           id: 1
         }
       };
+    });
+  });
+
+  describe('processSignin', () => {
+    it('returns a function', () => {
+      const actual = processSignin({
+        username: 'test',
+        password: 'test'
+      });
+      expect(actual).to.be.a('function');
+    });
+
+    it('dispatches loginSuccess on success', () => {
+      const lib = {
+        post () {
+          return when({data: {token: 'abcdefg'}});
+        }
+      };
+      const expected = {
+        type: 'LOGIN_SUCCESS',
+        payload: {
+          token: 'abcdefg'
+        }
+      };
+      const loginRequest = {
+        username: 'test',
+        password: 'test'
+      };
+      const noop = () => {};
+      processSignin(loginRequest, lib, noop)((action) => {
+        expect(action).to.deep.equal(expected);
+      });
+    });
+
+    it('dispatches loginFailure on failure', () => {
+      const lib = {
+        post () {
+          return when.reject({data: {error: 'Error'}});
+        }
+      };
+      const expected = {
+        type: 'LOGIN_FAILURE',
+        payload: {
+          error: 'Error'
+        }
+      };
+      const loginRequest = {
+        username: 'test',
+        password: 'test'
+      };
+      const noop = () => {};
+      processSignin(loginRequest, lib, noop)((action) => {
+        debugger;
+        expect(action).to.deep.equal(expected);
+      });
     });
   });
 });
