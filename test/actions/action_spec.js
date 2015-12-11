@@ -102,7 +102,6 @@ describe('Actions', () => {
       };
       const noop = () => {};
       processSignin(loginRequest, lib, noop)((action) => {
-        debugger;
         expect(action).to.deep.equal(expected);
       });
     });
