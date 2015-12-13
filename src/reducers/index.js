@@ -29,7 +29,14 @@ const ROOT_REDUCER = handleActions({
   },
 
   [ActionTypes.PLACE_VOTE_FAILURE]: (state = initialState, action) => {
-    return state;
+    const oldFlashMessage = state.get('flashMessage');
+    const newFlashMessage = fromJS({
+      error: true,
+      message: action.payload.message,
+      time: oldFlashMessage.get('time') + 500
+    });
+
+    return state.set('flashMessage', newFlashMessage);
   },
 
   [ActionTypes.GOT_ITEMS]: (state, action) => {

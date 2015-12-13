@@ -76,7 +76,7 @@ export const placeVote = (item, ajaxLib = axios) => {
           dispatch(placeVoteSuccess(response.data));
         })
         .catch((response) => {
-          dispatch(placeVoteFailure(response.data));
+          dispatch(placeVoteFailure(new Error(response.data)));
         });
     } else {
       dispatch(placeVoteFailure());

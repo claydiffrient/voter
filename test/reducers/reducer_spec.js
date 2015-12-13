@@ -4,7 +4,7 @@ import chai from 'chai';
 import chaiImmutable from 'chai-immutable';
 import { Map, List, fromJS } from 'immutable';
 import reducer from '../../src/reducers';
-import { addItemSuccess, removeItem, placeVoteSuccess, gotItems } from '../../src/actions';
+import { addItemSuccess, removeItem, placeVoteSuccess, placeVoteFailure, gotItems } from '../../src/actions';
 
 chai.use(chaiImmutable);
 
@@ -43,7 +43,7 @@ describe('Reducers', () => {
     expect(finalState.get('items')).to.equal(expected);
   });
 
-  it('reduces the remainingVotes on PLACE_VOTE', () => {
+  it('reduces the remainingVotes on PLACE_VOTE_SUCCESS', () => {
     let initialState = Map({
       items: fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 0}]),
       remainingVotes: 10
@@ -52,6 +52,28 @@ describe('Reducers', () => {
     let action = placeVoteSuccess({id: 3});
     let finalState = reducer(initialState, action);
     expect(finalState.get('remainingVotes')).to.equal(9);
+  });
+
+  it('sets the flashMessage error on PLACE_VOTE_FAILURE', () => {
+    let initialState = Map({
+      flashMessage: Map({
+        error: false,
+        message: '',
+        time: 1000
+      })
+    });
+
+    const failure = new Error('Failed to place the vote')
+    let action = placeVoteFailure(failure);
+    let finalState = reducer(initialState, action);
+
+    let expected = Map({
+      error: true,
+      message: 'Failed to place the vote',
+      time: 1500
+    });
+
+    expect(finalState.get('flashMessage')).to.equal(expected);
   });
 
   it('adds items to the store on GOT_ITEMS', () => {
