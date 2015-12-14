@@ -13,15 +13,26 @@ class Index extends React.Component {
   render () {
     return (
       <div>
-        <ItemList items={this.props.items} handleVote={this.props.handleVote} />
-        <AddItem onAdd={this.props.handleAddItem} />
+        <button type='button' onClick={this.props.handleAddItemList}>Add List</button>
+        <div className='ItemLists'>
+        {
+          this.props.itemLists.map((itemList) => {
+            return (
+              <div key={itemList.get('id')} className='ItemList__Container'>
+                <ItemList items={itemList.get('items')} handleVote={this.props.handleVote} />
+                <AddItem onAdd={this.props.handleAddItem} />
+              </div>
+            );
+          }).toArray()
+        }
+        </div>
       </div>
     );
   }
 }
 
 Index.propTypes = {
-  items: React.PropTypes.instanceOf(Immutable.List),
+  itemLists: React.PropTypes.instanceOf(Immutable.List),
   handleVote: React.PropTypes.func,
   handleAddItem: React.PropTypes.func,
   handleWillMount: React.PropTypes.func

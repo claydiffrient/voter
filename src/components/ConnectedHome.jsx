@@ -6,7 +6,8 @@ import { isAuthed } from '../utils';
 
 function mapStateToProps (state) {
   return {
-    items: state.get('items')
+    items: state.get('items'),
+    itemLists: state.get('itemLists')
   };
 }
 
@@ -20,7 +21,8 @@ function mapDispatchToProps (dispatch) {
       }
     },
     handleAddItem: (item) => dispatch(Actions.addItem(item)),
-    handleVote: (id) => dispatch(Actions.placeVote({id}))
+    handleVote: (id) => dispatch(Actions.placeVote({id})),
+    handleAddItemList: () => dispatch(Actions.addList())
   };
 }
 

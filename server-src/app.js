@@ -181,7 +181,8 @@ app.post('/api/v1/users/:userId/lists', (req, res, next) => {
  * @apiSuccess  {Object[]} lists.items    The items on the list
  */
 app.get('/api/v1/lists', (req, res) => {
-  VoteList.run()
+  VoteList.getJoin()
+          .run()
           .then((voteLists) => {
             res.json(voteLists);
           });

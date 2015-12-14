@@ -6,7 +6,7 @@ import { isAuthed } from '../utils';
 
 function mapStateToProps (state) {
   return {
-    items: state.get('items')
+    itemLists: state.get('itemLists')
   };
 }
 

@@ -45,6 +45,12 @@ const ROOT_REDUCER = handleActions({
     return state.set('items', newItems);
   },
 
+  [ActionTypes.GOT_LISTS]: (state = initialState, action) => {
+    let oldItems = state.get('itemLists');
+    let newItems = oldItems.concat(fromJS(action.payload));
+    return state.set('itemLists', newItems);
+  },
+
   [ActionTypes.REGISTER_SUCCESS]: (state, action) => {
     return state;
   },

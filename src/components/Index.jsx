@@ -54,7 +54,7 @@ class Index extends React.Component {
 }
 
 Index.propTypes = {
-  items: React.PropTypes.instanceOf(Immutable.List),
+  itemList: React.PropTypes.instanceOf(Immutable.List),
   handleVote: React.PropTypes.func,
   handleAddItem: React.PropTypes.func,
   handleWillMount: React.PropTypes.func

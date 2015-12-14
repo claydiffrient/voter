@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { configureAxios } from '../utils';
+import { configureAxios, parseJWT } from '../utils';
 import axiosLib from 'axios';
 import page from 'page';
 
@@ -35,11 +35,30 @@ export const loginFailure = createAction(LOGIN_FAILURE);
 export const GOT_LISTS = 'GOT_LISTS';
 export const gotLists = createAction(GOT_LISTS);
 
+export const ADD_ITEM_LIST_SUCCESS = 'ADD_ITEM_LIST_SUCCESS';
+export const addItemListSuccess = createAction(ADD_ITEM_LIST_SUCCESS);
+
+export const ADD_ITEM_LIST_FAILURE = 'ADD_ITEM_LIST_FAILURE';
+export const addItemListFailure = createAction(ADD_ITEM_LIST_FAILURE);
+
 export const getLists = (ajaxLib = axios) => {
   return (dispatch, getState) => {
     ajaxLib.get('/api/v1/lists')
            .then((response) => {
              dispatch(gotLists(response.data));
+           });
+  };
+};
+
+export const addList = (ajaxLib = axios) => {
+  return (dispatch, getState) => {
+    const username = parseJWT().username;
+    ajaxLib.post(`/api/v1/users/${username}/lists`, {})
+           .then((response) => {
+             dispatch(addItemListSuccess(response.data));
+           })
+           .catch((response) => {
+             dispatch(addItemListFailure(new Error(response.data)));
            });
   };
 };
