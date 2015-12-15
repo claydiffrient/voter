@@ -188,6 +188,30 @@ app.get('/api/v1/lists', (req, res) => {
           });
 });
 
+/**
+ * @api {post} /lists/:listId/
+ * @apiName CreateItem
+ * @apiGroup Items
+ * @apiVersion 1.0.0
+ *
+ * @apiParam  {String}  userId User's id
+ * @apiParam  {String}  listId Id of the list the item is going to be a part of
+ */
+
+app.post('/api/v1/lists/:listId', auth, (req, res, next) => {
+  let item = new Item({
+    ownerId: req.body.userId,
+    listId: req.params.listId,
+    title: req.body.title,
+  });
+
+  item.save((err) => {
+    if (err) { return next(err); }
+    return res.json(item);
+  })
+});
+
+
 app.get('/api/v1/items', (req, res) => {
   Item.run().then((items) => {
     res.json(items);
