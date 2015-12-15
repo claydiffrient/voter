@@ -75,8 +75,7 @@ export const getItems = (ajaxLib = axios) => {
 export const addItem = (item, ajaxLib = axios) => {
   return (dispatch, getState) => {
     ajaxLib
-      .post('/api/v1/items', {
-        votes: 0,
+      .post(`/api/v1/lists/${item.listId}`, {
         title: item.title
       })
       .then((response) => {

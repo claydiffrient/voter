@@ -5,9 +5,14 @@ import { fromJS } from 'immutable';
 
 const ROOT_REDUCER = handleActions({
   [ActionTypes.ADD_ITEM_SUCCESS]: (state, action) => {
-    let oldItems = state.get('items');
-    let newItems = oldItems.push(fromJS(action.payload));
-    return state.set('items', newItems);
+    let itemListsIndex = state.get('itemLists').findIndex((x) => x.get('id') === action.payload.listId);
+    let newItemLists = state.get('itemLists').update(itemListsIndex,
+      (x) => {
+        let newItems = x.get('items').push(fromJS(action.payload))
+        return x.set('items', newItems);
+      }
+    );
+    return state.set('itemLists', newItemLists);
   },
 
   [ActionTypes.REMOVE_ITEM]: (state, action) => {

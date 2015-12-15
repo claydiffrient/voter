@@ -10,6 +10,10 @@ class Index extends React.Component {
     this.props.handleWillMount();
   }
 
+  getVotesforCurrentUser (itemList) {
+    return 42;
+  }
+
   render () {
     return (
       <div>
@@ -19,8 +23,11 @@ class Index extends React.Component {
           this.props.itemLists.map((itemList) => {
             return (
               <div key={itemList.get('id')} className='ItemList__Container'>
+                <div className='ItemList__RemainingVotes'>
+                  Remaining Votes: {this.getVotesforCurrentUser(itemList)}
+                </div>
                 <ItemList items={itemList.get('items')} handleVote={this.props.handleVote} />
-                <AddItem onAdd={this.props.handleAddItem} />
+                <AddItem listId={itemList.get('id')} onAdd={this.props.handleAddItem} />
               </div>
             );
           }).toArray()

@@ -17,7 +17,7 @@ export default class AddItem extends React.Component {
     if (this.state.input.length) {
       this.props.onAdd({
         title: this.state.input,
-        votes: 0
+        listId: this.props.listId
       });
       this.setState({
         input: '',
