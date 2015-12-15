@@ -18,6 +18,7 @@ import jwt from 'express-jwt';
 let User = {};
 let Item = {};
 let VoteList = {};
+let Vote = {};
 
 // Delay to insure startup of DB has completed in docker compose
 setTimeout(() => {
@@ -26,6 +27,7 @@ setTimeout(() => {
   User = models.User;
   Item = models.Item;
   VoteList = models.VoteList;
+  Vote = models.Vote;
   // const {User, Item, VoteList} = require('./models/');
 
   /**
@@ -37,6 +39,9 @@ setTimeout(() => {
   // Vote list has many items, items have one vote list
   VoteList.hasMany(Item, 'items', 'id', 'listId');
   Item.belongsTo(VoteList, 'voteList', 'listId', 'id');
+  // Vote has one user
+  Vote.hasOne(User, 'voter', 'voterId', 'id');
+  Vote.hasOne(Item, 'item', 'itemId', 'id');
 }, 5000);
 
 
@@ -194,23 +199,41 @@ app.get('/api/v1/lists', (req, res) => {
  * @apiGroup Items
  * @apiVersion 1.0.0
  *
- * @apiParam  {String}  userId User's id
  * @apiParam  {String}  listId Id of the list the item is going to be a part of
  */
-
 app.post('/api/v1/lists/:listId', auth, (req, res, next) => {
   let item = new Item({
-    ownerId: req.body.userId,
+    ownerId: req.payload.username,
     listId: req.params.listId,
-    title: req.body.title,
+    title: req.body.title
   });
 
   item.save((err) => {
     if (err) { return next(err); }
     return res.json(item);
-  })
+  });
 });
 
+/**
+ * @api {post} /lists/:listId/:itemId/vote
+ * @apiName VoteForListItem
+ * @apiGroup Items
+ * @apiVersion 1.0.0
+ *
+ * @apiParam  {String}  listId Id of the list
+ * @apiParam  {String}  itemId Id of the item to vote for
+ */
+app.post('/api/v1/lists/:listId/:itemId/vote', auth, (req, res, next) => {
+  let vote = new Vote({
+    voterId: req.payload.username,
+    itemId: req.params.itemId
+  });
+
+  vote.save((err) => {
+    if (err) { return next(err); }
+    return res.json(vote);
+  });
+});
 
 app.get('/api/v1/items', (req, res) => {
   Item.run().then((items) => {
