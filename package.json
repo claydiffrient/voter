@@ -62,7 +62,7 @@
     "express-jwt": "^3.3.0",
     "express-session": "^1.12.1",
     "flexboxgrid": "^6.3.0",
-    "immutable": "^3.7.5",
+    "immutable": "^3.7.6",
     "jsonwebtoken": "^5.4.1",
     "method-override": "^2.3.5",
     "morgan": "^1.6.1",
