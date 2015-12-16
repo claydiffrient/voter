@@ -21,7 +21,7 @@ function mapDispatchToProps (dispatch) {
       }
     },
     handleAddItem: (item) => dispatch(Actions.addItem(item)),
-    handleVote: (id) => dispatch(Actions.placeVote({id})),
+    handleVote: (id, listId) => dispatch(Actions.placeVote({id, listId})),
     handleAddItemList: () => dispatch(Actions.addList())
   };
 }

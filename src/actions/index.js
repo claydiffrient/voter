@@ -89,9 +89,9 @@ export const placeVote = (item, ajaxLib = axios) => {
     let userVotes = getState().get('remainingVotes');
     if (userVotes > 0) {
       ajaxLib
-        .post(`/api/v1/items/${item.id}/vote`)
+        .post(`/api/v1/lists/${item.listId}/${item.id}/vote`)
         .then((response) => {
-          dispatch(placeVoteSuccess(response.data));
+          dispatch(placeVoteSuccess({listId: item.listId, ...response.data}));
         })
         .catch((response) => {
           dispatch(placeVoteFailure(new Error(response.data)));

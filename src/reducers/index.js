@@ -8,7 +8,7 @@ const ROOT_REDUCER = handleActions({
     let itemListsIndex = state.get('itemLists').findIndex((x) => x.get('id') === action.payload.listId);
     let newItemLists = state.get('itemLists').update(itemListsIndex,
       (x) => {
-        let newItems = x.get('items').push(fromJS(action.payload))
+        let newItems = x.get('items').push(fromJS(action.payload));
         return x.set('items', newItems);
       }
     );
@@ -23,14 +23,20 @@ const ROOT_REDUCER = handleActions({
 
   [ActionTypes.PLACE_VOTE_SUCCESS]: (state, action) => {
     // Add the vote to the appropriate item
-    let oldItems = state.get('items');
-    let index = oldItems.findIndex(x => x.get('id') === action.payload.id);
-    let newItems = oldItems.update(index, x => x.set('votes', x.get('votes') + 1));
+    let itemListsIndex = state.get('itemLists').findIndex((x) => x.get('id') === action.payload.listId);
+    let newItemLists = state.get('itemLists').update(itemListsIndex,
+      (x) => {
+        let oldItems = x.get('items')
+        let index = oldItems.findIndex(x => x.get('id') === action.payload.itemId);
+        let newItems = oldItems.update(index, x => x.set('votes', x.get('votes') + 1));
+        return x.set('items', newItems);
+      }
+    );
 
-    // Reduce the remaining votes for the user
+    // TODO: Rework this so that the remaining votes applies per list.
     let updatedState = state.set('remainingVotes', state.get('remainingVotes') - 1);
 
-    return updatedState.set('items', newItems);
+    return updatedState.set('itemLists', newItemLists);
   },
 
   [ActionTypes.PLACE_VOTE_FAILURE]: (state = initialState, action) => {

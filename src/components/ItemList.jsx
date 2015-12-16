@@ -8,7 +8,7 @@ export default function (props) {
         props.items.map((item) => {
           const id = item.get('id');
           return (
-            <Item key={id} id={id} votes={item.get('votes')} title={item.get('title')} handleVoteClick={props.handleVote.bind(null, id)} />
+            <Item key={id} id={id} votes={item.get('votes')} title={item.get('title')} handleVoteClick={props.handleVote.bind(null, id, item.get('listId'))} />
           );
         }).toArray()
       }
