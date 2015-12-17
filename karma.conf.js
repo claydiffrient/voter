@@ -10,7 +10,7 @@ module.exports = function (config) {
     preprocessors: {
       'test/**/*_spec.js': ['webpack']
     },
-    webpack: require('./webpack.test.config'),
+    webpack: process.env.CONTINUOUS_INTEGRATION ? require('./webpack.test.config') : require('./webpack.config'),
     webpackMiddleware: {
       noInfo: process.env.CONTINUOUS_INTEGRATION
     },

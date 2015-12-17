@@ -26,7 +26,7 @@ const ROOT_REDUCER = handleActions({
     let itemListsIndex = state.get('itemLists').findIndex((x) => x.get('id') === action.payload.listId);
     let newItemLists = state.get('itemLists').update(itemListsIndex,
       (x) => {
-        let oldItems = x.get('items')
+        let oldItems = x.get('items');
         let index = oldItems.findIndex(x => x.get('id') === action.payload.itemId);
         let newItems = oldItems.update(index, x => x.set('votes', x.get('votes') + 1));
         return x.set('items', newItems);

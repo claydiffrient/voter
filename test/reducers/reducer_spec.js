@@ -9,15 +9,56 @@ import { addItemSuccess, removeItem, placeVoteSuccess, placeVoteFailure, gotItem
 chai.use(chaiImmutable);
 
 describe('Reducers', () => {
-  it('adds an item to the list of items on ADD_ITEM', () => {
-    let initialState = Map({
-        items: List([1, 2, 3])
+
+  const BASE_STATE = fromJS({
+        remainingVotes: 10,
+        itemLists: [{
+          id: 'abc',
+          items: [{
+            id: 'abcd',
+            title: 'test 1',
+            listId: 'abc',
+            votes: 0
+          }, {
+            id: 'efgh',
+            title: 'test 2',
+            listId: 'abc',
+            votes: 0
+          }]
+        }, {
+          id: 'def',
+          items: [{
+            title: 'test 3'
+          }, {
+            title: 'test 4'
+          }]
+        }]
       });
 
-    let action = addItemSuccess(4);
+  it('adds an item to the list of items on ADD_ITEM_SUCCESS', () => {
+    let initialState = BASE_STATE;
+
+    let action = addItemSuccess({title: 'test added', listId: 'abc'});
 
     let finalState = reducer(initialState, action);
-    expect(finalState.get('items')).to.deep.equal(List([1, 2, 3, 4]));
+    const expected = fromJS({
+      id: 'abc',
+      items: [{
+        id: 'abcd',
+        title: 'test 1',
+        listId: 'abc',
+        votes: 0
+      }, {
+        id: 'efgh',
+        title: 'test 2',
+        listId: 'abc',
+        votes: 0
+      }, {
+        title: 'test added',
+        listId: 'abc'
+      }]
+    });
+    expect(finalState.get('itemLists').get(0)).to.deep.equal(expected);
   });
 
   it('removes an item from the list of items on REMOVE_ITEM', () => {
@@ -32,24 +73,19 @@ describe('Reducers', () => {
   });
 
   it('adds a vote count on PLACE_VOTE_SUCCESS', () => {
-    let initialState = Map({
-      items: fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 0}])
-    });
+    let initialState = BASE_STATE;
 
-    let action = placeVoteSuccess({id: 3});
+    let action = placeVoteSuccess({listId: 'abc', itemId: 'abcd'});
 
     let finalState = reducer(initialState, action);
-    let expected = fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 1}]);
-    expect(finalState.get('items')).to.equal(expected);
+    let expected = 1;
+    expect(finalState.get('itemLists').get(0).get('items').get(0).get('votes')).to.equal(expected);
   });
 
   it('reduces the remainingVotes on PLACE_VOTE_SUCCESS', () => {
-    let initialState = Map({
-      items: fromJS([{id: 1, votes: 0}, {id: 2, votes: 0}, {id: 3, votes: 0}]),
-      remainingVotes: 10
-    });
+    let initialState = BASE_STATE;
 
-    let action = placeVoteSuccess({id: 3});
+    let action = placeVoteSuccess({listId: 'abc', itemId: 'abcd'});
     let finalState = reducer(initialState, action);
     expect(finalState.get('remainingVotes')).to.equal(9);
   });
