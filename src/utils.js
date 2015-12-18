@@ -18,11 +18,11 @@ export function deleteToken () {
 }
 
 export function getToken () {
-  return window.sessionStorage.getItem('voter')
+  return window.sessionStorage.getItem('voter');
 }
 
 export function setToken (token) {
-  window.sessionStorage.setItem('voter', JSON.stringify(token));
+  window.sessionStorage.setItem('voter', token);
 }
 
 /**
