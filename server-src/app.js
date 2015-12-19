@@ -14,6 +14,7 @@ import renderApp from './ssrApp';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import jwt from 'express-jwt';
+import _ from 'lodash';
 
 let User = {};
 let Item = {};
@@ -43,7 +44,6 @@ setTimeout(() => {
   Vote.hasOne(User, 'voter', 'voterId', 'id');
   Vote.hasOne(Item, 'item', 'itemId', 'id');
 }, 5000);
-
 
 // import apiRoutes from './api'
 
@@ -185,10 +185,34 @@ app.post('/api/v1/users/:userId/lists', (req, res, next) => {
  * @apiSuccess  {String}   lists.ownerId  The id of the user that owns it
  * @apiSuccess  {Object[]} lists.items    The items on the list
  */
-app.get('/api/v1/lists', (req, res) => {
+app.get('/api/v1/lists', auth, (req, res) => {
   VoteList.getJoin()
           .run()
           .then((voteLists) => {
+            const user = req.payload.username;
+            Vote.filter({voterId: user})
+                .run()
+                .then((votes) => {
+                  const itemIds = votes.map((vote) => {
+                    return vote.itemId;
+                  });
+
+                  voteLists.forEach((list) => {
+                    const listItemIds = list.items.map((item) => {
+                      return item.listId;
+                    });
+
+                    console.log('**************listItemIds****************');
+                    console.log(listItemIds);
+                    console.log('**************itemIds********************');
+                    console.log(itemIds);
+                    const intersection = _.intersection(listItemIds, itemIds);
+                    console.log(intersection.length);
+                  });
+
+
+
+                });
             res.json(voteLists);
           });
 });
