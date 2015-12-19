@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --inline --hot",
     "start-server": "npm run build && bin/start-server",
+    "docker-dev-start": "bin/dev-server",
     "build": "bin/build",
     "test": "npm run test:client",
     "test:client": "NODE_ENV=test bin/test",
@@ -42,6 +43,7 @@
     "karma-spec-reporter": "0.0.23",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
+    "nodemon": "^1.8.1",
     "postcss-loader": "^0.8.0",
     "react-addons-test-utils": "^0.14.3",
     "style-loader": "^0.13.0",

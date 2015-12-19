@@ -13,11 +13,16 @@ webpack:
   dockerfile: Dockerfile-dev
   volumes:
     - ".:/usr/src/app"
-  ports:
-    - "4000:4000"
   environment:
     NODE_ENV: development
-
+babel_server:
+  build: .
+  command: node_modules/.bin/babel --watch -d built/server server-src
+  dockerfile: Dockerfile-dev
+  volumes:
+    - ".:/usr/src/app"
+  environment:
+    NODE_ENV: development
 db:
   image: rethinkdb
   ports:

@@ -7,4 +7,4 @@ WORKDIR /usr/src/app
 
 RUN npm install
 
-CMD npm run start-server
+CMD npm run docker-dev-start
