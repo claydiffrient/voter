@@ -254,7 +254,16 @@ app.post('/api/v1/lists/:listId/:itemId/vote', auth, (req, res, next) => {
 
   vote.save((err) => {
     if (err) { return next(err); }
-    return res.json(vote);
+    Item.get(req.params.itemId)
+        .run()
+        .then((item) => {
+          // Update the item's vote count
+          item.votes += 1;
+          item.save((err) => {
+            if (err) { return next(err); }
+            return res.json(vote);
+          });
+        });
   });
 });
 
