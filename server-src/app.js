@@ -21,6 +21,8 @@ let Item = {};
 let VoteList = {};
 let Vote = {};
 
+const DEFAULT_VOTES_PER_LIST = 10;
+
 // Delay to insure startup of DB has completed in docker compose
 setTimeout(() => {
   // Thinky Models
@@ -191,29 +193,26 @@ app.get('/api/v1/lists', auth, (req, res) => {
           .then((voteLists) => {
             const user = req.payload.username;
             Vote.filter({voterId: user})
+                .getJoin({
+                  item: true
+                })
                 .run()
                 .then((votes) => {
-                  const itemIds = votes.map((vote) => {
-                    return vote.itemId;
+                  const groupedVotes = _.groupBy(votes, (vote) => {
+                    return vote.item.listId;
                   });
 
-                  voteLists.forEach((list) => {
-                    const listItemIds = list.items.map((item) => {
-                      return item.listId;
-                    });
-
-                    console.log('**************listItemIds****************');
-                    console.log(listItemIds);
-                    console.log('**************itemIds********************');
-                    console.log(itemIds);
-                    const intersection = _.intersection(listItemIds, itemIds);
-                    console.log(intersection.length);
+                  const augmentedLists = voteLists.map((list) => {
+                    let augmentedList = list;
+                    augmentedList.remainingVotes = DEFAULT_VOTES_PER_LIST;
+                    if (groupedVotes[list.id]) {
+                      augmentedList.remainingVotes -= groupedVotes[list.id].length;
+                    }
+                    return augmentedList;
                   });
 
-
-
+                  res.json(augmentedLists);
                 });
-            res.json(voteLists);
           });
 });
 

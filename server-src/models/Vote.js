@@ -9,7 +9,8 @@ export default function (thinky) {
   const Vote = thinky.createModel('votes', {
     id: type.string(),
     voterId: type.string(),
-    itemId: type.string()
+    itemId: type.string(),
+    date: type.date().default(new Date())
   });
 
   return Vote;
