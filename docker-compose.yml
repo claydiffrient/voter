@@ -17,7 +17,7 @@ webpack:
     NODE_ENV: development
 babel_server:
   build: .
-  command: node_modules/.bin/babel --watch -d built/server server-src
+  command: node_modules/.bin/babel --preset es2015-node5 --watch -d built/server server-src
   dockerfile: Dockerfile-dev
   volumes:
     - ".:/usr/src/app"
