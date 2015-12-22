@@ -9,6 +9,13 @@ Voter
 This is a WIP, but will be a simple application that allows
 arbitrary information to be entered and voted upon.
 
+Update on Progress:
+  1. I've got authentication for users using local authentication
+     and JWT tokens.
+  2. You can create arbitrary lists.
+  3. You can add items to the lists
+  4. You can upvote items on the lists.
+
 Some stretch goals for it will be authentication for users
 and arbitrary creation of vote sessions.
 
