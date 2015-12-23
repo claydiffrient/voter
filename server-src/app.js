@@ -88,37 +88,6 @@ passport.use(new LocalStrategy({},
 
 app.use(passport.initialize());
 
-// TODO: Extract this out to a utilites module
-/**
- * Gets the number of remaining votes for a user given a user id and
- * the list desired.
- *
- * @param  {String} userId The user id for the requested user
- * @param  {String} listId The list id for the requested list
- * @return {Promise}       The promise that will resolve to the appropriate info
- */
-function getRemainingVotesForUserAndList (userId, listId) {
-  return new Promise((resolve, reject) => {
-    Vote.filter({voterId: userId})
-        .getJoin({
-          item: true
-        })
-        .run()
-        .then((votes) => {
-          const groupedVotes = _.groupBy(votes, (vote) => {
-            return vote.item.listId;
-          });
-
-          let remainingVotes = DEFAULT_VOTES_PER_LIST;
-          if (groupedVotes[listId]) {
-            remainingVotes -= groupedVotes[listId].length;
-          }
-
-          resolve(remainingVotes);
-        });
-  });
-};
-
 // TODO: Extract this out to a seperate module for api things
 
 /**
@@ -205,6 +174,50 @@ app.post('/api/v1/users/:userId/lists', (req, res, next) => {
   });
 });
 
+app.get('/api/v1/users/:userId/remainingVotes/', auth, (req, res, next) => {
+  Vote.filter({voterId: this.params.userId})
+      .getJoin({
+        item: true
+      })
+      .run()
+      .then((votes) => {
+        const groupedVotes = _.groupBy(votes, (vote) => {
+          return vote.item.listId;
+        });
+
+        let remainingVotes = DEFAULT_VOTES_PER_LIST;
+        if (groupedVotes[this.params.listId]) {
+          remainingVotes -= groupedVotes[this.params.listId].length;
+        }
+
+        res.json({remainingVotes});
+      });
+});
+
+app.get('/api/v1/users/:userId/remainingVotes/:listId', auth, (req, res, next) => {
+  Vote.filter({voterId: this.params.userId})
+      .getJoin({
+        item: true
+      })
+      .run()
+      .then((votes) => {
+        const groupedVotes = _.groupBy(votes, (vote) => {
+          return vote.item.listId;
+        });
+
+        let remainingVotes = DEFAULT_VOTES_PER_LIST;
+        if (groupedVotes[this.params.listId]) {
+          remainingVotes -= groupedVotes[this.params.listId].length;
+        }
+
+        const remainingVotesObj = {
+          [this.params.listId]: remainingVotes;
+        };
+
+        res.json(remainingVotesObj);
+      });
+});
+
 /**
  * @api {get} /lists
  * @apiName GetLists
@@ -220,20 +233,10 @@ app.post('/api/v1/users/:userId/lists', (req, res, next) => {
 app.get('/api/v1/lists', auth, (req, res) => {
   const user = req.payload.username;
 
-  async function augmentList (list) {
-    let augmentedList = list;
-    const remainingVotes = await getRemainingVotesForUserAndList(user, list.id);
-    augmentedList.remainingVotes = remainingVotes;
-    return augmentedList;
-  }
-
   VoteList.getJoin()
           .run()
           .then((voteLists) => {
-
-            const augmentedLists = voteLists.map(augmentList);
-            console.log(augmentedLists);
-            res.json(augmentedLists);
+            res.json(voteLists);
           });
 });
 

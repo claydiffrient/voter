@@ -17,7 +17,8 @@ function mapDispatchToProps (dispatch) {
       if (!isAuthed()) {
         page('/');
       } else {
-        dispatch(Actions.getLists())
+        dispatch(Actions.getLists());
+        dispatch(Actions.getRemainingVotes());
       }
     },
     handleAddItem: (item) => dispatch(Actions.addItem(item)),

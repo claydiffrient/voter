@@ -62,6 +62,14 @@ const ROOT_REDUCER = handleActions({
     return state.set('itemLists', newItems);
   },
 
+  [ActionTypes.GET_REMAINING_VOTES_SUCCESS]: (state = initialState, action) => {
+    let oldItems = state.get('itemLists');
+    let newItems = oldItems.map((x) => {
+      return x.set('remainingVotes', action.payload.remainingVotes[x.id]);
+    });
+    return state.set('itemLists', newItems);
+  },
+
   [ActionTypes.REGISTER_SUCCESS]: (state, action) => {
     return state;
   },

@@ -41,6 +41,9 @@ export const addItemListSuccess = createAction(ADD_ITEM_LIST_SUCCESS);
 export const ADD_ITEM_LIST_FAILURE = 'ADD_ITEM_LIST_FAILURE';
 export const addItemListFailure = createAction(ADD_ITEM_LIST_FAILURE);
 
+export const GET_REMAINING_VOTES_SUCCESS = 'GET_REMAINING_VOTES_SUCCESS';
+export const getRemainingVotesSuccess = createAction(GET_REMAINING_VOTES_SUCCESS);
+
 export const getLists = (ajaxLib = axios) => {
   return (dispatch, getState) => {
     ajaxLib.get('/api/v1/lists')
@@ -49,6 +52,16 @@ export const getLists = (ajaxLib = axios) => {
            });
   };
 };
+
+export const getRemainingVotes = (username, listId = '', ajaxLib = axios) => {
+  return (dispatch, getState) => {
+    ajaxLib.get(`/api/v1/users/${username}/remainingVotes/${listId}`)
+           .then((response) => {
+             dispatch(getRemainingVotesSuccess(response.data));
+           });
+           // TODO: Add fail condition here
+  }
+}
 
 export const addList = (ajaxLib = axios) => {
   return (dispatch, getState) => {
