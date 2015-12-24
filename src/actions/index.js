@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { configureAxios, parseJWT } from '../utils';
+import { configureAxios, parseJWT, getUsername } from '../utils';
 import axiosLib from 'axios';
 import page from 'page';
 
@@ -53,7 +53,7 @@ export const getLists = (ajaxLib = axios) => {
   };
 };
 
-export const getRemainingVotes = (username, listId = '', ajaxLib = axios) => {
+export const getRemainingVotes = (username = getUsername(), listId = '', ajaxLib = axios) => {
   return (dispatch, getState) => {
     ajaxLib.get(`/api/v1/users/${username}/remainingVotes/${listId}`)
            .then((response) => {

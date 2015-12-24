@@ -13,6 +13,10 @@ export function parseJWT (token = getToken(), aToB = window.atob) {
   return JSON.parse(aToB(base64));
 }
 
+export function getUsername () {
+  return parseJWT().username;
+}
+
 export function deleteToken () {
   window.sessionStorage.removeItem('voter');
 }

@@ -174,8 +174,8 @@ app.post('/api/v1/users/:userId/lists', (req, res, next) => {
   });
 });
 
-app.get('/api/v1/users/:userId/remainingVotes/', auth, (req, res, next) => {
-  Vote.filter({voterId: this.params.userId})
+app.get('/api/v1/users/:userId/remainingVotes', auth, (req, res, next) => {
+  Vote.filter({voterId: req.params.userId})
       .getJoin({
         item: true
       })
@@ -185,17 +185,17 @@ app.get('/api/v1/users/:userId/remainingVotes/', auth, (req, res, next) => {
           return vote.item.listId;
         });
 
-        let remainingVotes = DEFAULT_VOTES_PER_LIST;
-        if (groupedVotes[this.params.listId]) {
-          remainingVotes -= groupedVotes[this.params.listId].length;
+        let remainingVotesObj = {};
+        for (let key in groupedVotes) {
+          remainingVotesObj[key] = DEFAULT_VOTES_PER_LIST - groupedVotes[key].length;
         }
 
-        res.json({remainingVotes});
+        res.json({remainingVotes: remainingVotesObj});
       });
 });
 
 app.get('/api/v1/users/:userId/remainingVotes/:listId', auth, (req, res, next) => {
-  Vote.filter({voterId: this.params.userId})
+  Vote.filter({voterId: req.params.userId})
       .getJoin({
         item: true
       })
@@ -206,12 +206,12 @@ app.get('/api/v1/users/:userId/remainingVotes/:listId', auth, (req, res, next) =
         });
 
         let remainingVotes = DEFAULT_VOTES_PER_LIST;
-        if (groupedVotes[this.params.listId]) {
-          remainingVotes -= groupedVotes[this.params.listId].length;
+        if (groupedVotes[req.params.listId]) {
+          remainingVotes -= groupedVotes[req.params.listId].length;
         }
 
         const remainingVotesObj = {
-          [this.params.listId]: remainingVotes;
+          [req.params.listId]: remainingVotes
         };
 
         res.json(remainingVotesObj);
