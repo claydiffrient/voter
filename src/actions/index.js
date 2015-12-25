@@ -99,8 +99,10 @@ export const addItem = (item, ajaxLib = axios) => {
 
 export const placeVote = (item, ajaxLib = axios) => {
   return (dispatch, getState) => {
-    let userVotes = getState().get('remainingVotes');
-    if (userVotes > 0) {
+    const itemLists = getState().get('itemLists');
+    const currentItemList = itemLists.find((x) => x.get('id') === item.listId);
+    const remainingVotesForList = currentItemList.get('remainingVotes');
+    if (remainingVotesForList > 0) {
       ajaxLib
         .post(`/api/v1/lists/${item.listId}/${item.id}/vote`)
         .then((response) => {
@@ -110,7 +112,7 @@ export const placeVote = (item, ajaxLib = axios) => {
           dispatch(placeVoteFailure(new Error(response.data)));
         });
     } else {
-      dispatch(placeVoteFailure());
+      dispatch(placeVoteFailure(new Error('All votes have been placed.')));
     }
   };
 };

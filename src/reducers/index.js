@@ -29,14 +29,12 @@ const ROOT_REDUCER = handleActions({
         let oldItems = x.get('items');
         let index = oldItems.findIndex(x => x.get('id') === action.payload.itemId);
         let newItems = oldItems.update(index, x => x.set('votes', x.get('votes') + 1));
-        return x.set('items', newItems);
+        let afterUpdatedRemaining = x.set('remainingVotes', x.get('remainingVotes') - 1);
+        return afterUpdatedRemaining.set('items', newItems);
       }
     );
 
-    // TODO: Rework this so that the remaining votes applies per list.
-    let updatedState = state.set('remainingVotes', state.get('remainingVotes') - 1);
-
-    return updatedState.set('itemLists', newItemLists);
+    return state.set('itemLists', newItemLists);
   },
 
   [ActionTypes.PLACE_VOTE_FAILURE]: (state = initialState, action) => {
@@ -65,7 +63,13 @@ const ROOT_REDUCER = handleActions({
   [ActionTypes.GET_REMAINING_VOTES_SUCCESS]: (state = initialState, action) => {
     let oldItems = state.get('itemLists');
     let newItems = oldItems.map((x) => {
-      return x.set('remainingVotes', action.payload.remainingVotes[x.id]);
+      if (action.payload.remainingVotes[x.get('id')]) {
+        return x.set('remainingVotes', action.payload.remainingVotes[x.get('id')]);
+      } else {
+         // TODO: Replace with variable for amount of votes.
+        return x.set('remainingVotes', 10);
+      }
+
     });
     return state.set('itemLists', newItems);
   },
