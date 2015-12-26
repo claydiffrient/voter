@@ -10,5 +10,17 @@
 # echo 'Running non-component tests via mocha'
 # mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/actions/**/*.@(js|jsx)' 'test/reducers/**/*.@(js|jsx)'
 
-echo 'Running client tests via Karma/Mocha'
-./node_modules/.bin/karma start
+if [[ $CONTINUOUS_INTEGRATION ]]; then
+  echo 'Running client tests via Karma/Mocha'
+  ./node_modules/.bin/karma start
+  echo 'Running server tests via Mocha'
+  ./node_modules/.bin/mocha --compilers js:babel-core/register --require ./test/test_helper.js 'server-test/**/*.js'
+else
+  echo 'Running client tests via Karma/Mocha'
+  # Backgrounded so it lets server tests run too
+  ./node_modules/.bin/karma start &
+  echo 'Running server tests via Mocha'
+  ./node_modules/.bin/mocha --watch --compilers js:babel-core/register --require ./test/test_helper.js 'server-test/**/*.js'
+fi
+
+
