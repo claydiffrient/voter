@@ -6,3 +6,8 @@ cp -R server-src/views built/server/
 
 echo 'Building client via webpack (and babel)'
 node_modules/.bin/webpack
+
+if [ $CONTINUOUS_INTEGRATION ]; then
+  echo 'Building server tests via babel'
+  node_modules/.bin/babel -d built/server-test server-test
+fi

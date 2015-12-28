@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import thinkyConstructor from 'thinky';
 import config from 'config';
-import UserModelFactory from '../../server-src/models/User';
+import UserModelFactory from '../../server/models/User';
 
 describe('User Model', () => {
   let thinky;
