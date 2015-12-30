@@ -14,7 +14,7 @@ if [ $CONTINUOUS_INTEGRATION ]; then
   echo 'Running client tests via Karma/Mocha'
   ./node_modules/.bin/karma start
   echo 'Running server tests via Mocha'
-  istanbul cover _mocha -- -u exports -R spec --compilers js:babel-core/register "server-test/**/*.js"
+  istanbul cover _mocha -- -u exports -R spec "built/server-test/**/*.js"
 else
   echo 'Running client tests via Karma/Mocha'
   # Backgrounded so it lets server tests run too
