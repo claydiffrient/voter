@@ -15,7 +15,6 @@
   "author": "Clay Diffrient <clay.diffrient@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "async": "^1.5.0",
     "atob": "^2.0.0",
     "autoprefixer": "^6.1.0",
     "babel-core": "^6.2.1",
@@ -51,7 +50,6 @@
     "postcss-loader": "^0.8.0",
     "react-addons-test-utils": "^0.14.3",
     "style-loader": "^0.13.0",
-    "supertest": "^1.1.0",
     "timekeeper": "0.0.5",
     "webpack": "^1.12.8",
     "webpack-dev-server": "^1.12.1"

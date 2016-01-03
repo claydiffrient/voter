@@ -17,20 +17,22 @@ import { Strategy } from 'passport-local';
 import jwt from 'express-jwt';
 import _ from 'lodash';
 
-let User = null;
-let Item = null;
-let VoteList = null;
-let Vote = null;
+let User = {};
+let Item = {};
+let VoteList = {};
+let Vote = {};
 
 const DEFAULT_VOTES_PER_LIST = 10;
 
-function setupModels () {
+// Delay to insure startup of DB has completed in docker compose
+setTimeout(() => {
   // Thinky Models
   let models = require('./models/').default;
   User = models.User;
   Item = models.Item;
   VoteList = models.VoteList;
   Vote = models.Vote;
+  // const {User, Item, VoteList} = require('./models/');
 
   /**
    * Setup relationships between models
@@ -41,14 +43,11 @@ function setupModels () {
   // Vote list has many items, items have one vote list
   VoteList.hasMany(Item, 'items', 'id', 'listId');
   Item.belongsTo(VoteList, 'voteList', 'listId', 'id');
-  // Vote has one user and one item
+  // Vote has one user
   Vote.hasOne(User, 'voter', 'voterId', 'id');
   Vote.hasOne(Item, 'item', 'itemId', 'id');
-}
+}, 5000);
 
-// Delay to insure startup of DB has completed in docker compose
-// setTimeout(setupModels, 5000);
-setupModels();
 // import apiRoutes from './api'
 
 const app = express();
@@ -366,8 +365,6 @@ app.post('/auth/login', (req, res, next) => {
 app.get('*', (req, res) => {
   res.render('index', {html: '<div id="main"></div>'});
 });
-
-export default app;
 
 httpServer.listen(port);
 console.log(`Voter listening on ${port}`);
