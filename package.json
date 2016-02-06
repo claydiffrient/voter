@@ -32,7 +32,7 @@
     "cssnext": "^1.8.4",
     "eslint": "^1.0.0",
     "eslint-config-semistandard": "^5.0.0",
-    "eslint-config-standard-react": "^1.2.1",
+    "eslint-config-standard-react": "^2.1.0",
     "eslint-plugin-react": "^3.13.1",
     "istanbul": "^0.4.1",
     "istanbul-instrumenter-loader": "^0.1.3",
