@@ -84,7 +84,7 @@
     "redux": "^3.0.4",
     "redux-actions": "^0.9.0",
     "redux-logger": "^2.3.0",
-    "redux-thunk": "^1.0.0",
+    "redux-thunk": "^2.0.1",
     "rethinkdb": "^2.2.0",
     "serve-static": "^1.10.0",
     "thinky": "^2.2.3",
